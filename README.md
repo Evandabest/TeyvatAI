@@ -1,4 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Teyvat AI
+
+## What is this
+
+This is a user to user social media app and AI reccomender.
+
+Some intended features for the first release:
+
+- Users can signup for an account, add friends, and chat with them
+- Allow anonymous users to chat temporarily
+- Users can store Artifacts, Characters and Teams
+- Users can ask Teyvat's Tinker (AI Chatbot) to make artifact and team reccomendations
+
+Features for the far future:
+
+- Users can chat with Models trained on content creators (Tuonto, Brax, Zyox...)
+- Users can use their device camera to scan in artifacts
+- Mobile app version
+
+## Project Details
+
+This project is built in NextJs using TypeScript. The database for this project is Supabase. This is still a work in progress, but feel free to clone and run it on your own. This project is technically open source but I won't be entertaining pull request/issue fixes just yet. I want to get the core features of the app out first and then work on optimization for the user.
 
 ## Getting Started
 
@@ -14,23 +35,51 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Setting up Supabase
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Go to https://supabase.com and create an account
+Start an project and go to the SQL editor
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Make a new query and enter the following:
 
-## Learn More
+```plpgsql
+-- Create a table for public profiles
+create table profiles (
+  id uuid references auth.users on delete cascade not null primary key,
+  email text unique not null,
+  updated_at timestamp with time zone,
+  username text,
+  friends json
+);
+-- Set up Row Level Security (RLS)
+-- See https://supabase.com/docs/guides/auth/row-level-security for more details.
+alter table profiles
+  enable row level security;
 
-To learn more about Next.js, take a look at the following resources:
+create policy "Public profiles are viewable by everyone." on profiles
+  for select using (true);
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+create policy "Users can insert their own profile." on profiles
+  for insert with check ((select auth.uid()) = id);
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+create policy "Users can update own profile." on profiles
+  for update using ((select auth.uid()) = id);
 
-## Deploy on Vercel
+-- This trigger automatically creates a profile entry when a new user signs up via Supabase Auth.
+-- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
+create function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.profiles (id, email)
+  values (new.id, new.email);
+  return new;
+end;
+$$ language plpgsql security definer;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This query will handle new user signups and enter their email and uuid to the profiles table. (There will be more tables that are updated by this trigger soon)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+It is very barebones right now so there isn't much to do
