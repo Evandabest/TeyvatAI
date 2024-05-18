@@ -1,4 +1,4 @@
-
+"use client"
 import 'boxicons/css/boxicons.min.css'; 
 import {
     Sheet,
@@ -8,24 +8,27 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
+import { useRouter } from 'next/navigation';
   
 
 const NavBar = () => {
+    const router = useRouter()
+    const goHome = () => {
+        router.push('/home')
+    }
   return (
-    <div>
-        <i className='bx bxs-home-circle'></i>
-        <img src="/logo.png" alt="logo" />
+    <div className='flex-row flex justify-evenly'>
+        <button onClick={goHome}><i className='bx bxs-home-circle'></i></button>
+        <img className=' w-20' src="/logo.png" alt="logo" />
         <Sheet>
-        <SheetTrigger>Open</SheetTrigger>
-        <SheetContent>
-            <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
-            <SheetDescription>
-                This action cannot be undone. This will permanently delete your account
-                and remove your data from our servers.
-            </SheetDescription>
-            </SheetHeader>
-        </SheetContent>
+            <SheetTrigger><i className ='bx bx-menu'></i></SheetTrigger>
+            <SheetContent className=' max-w-20'>
+                    <SheetHeader>
+                        <SheetTrigger><i className='bx bx-message-rounded-dots' ></i></SheetTrigger>
+                        <SheetTrigger><i className='bx bxs-book' ></i></SheetTrigger>
+                        <SheetTrigger><i className='bx bxs-user' ></i></SheetTrigger>
+                </SheetHeader>
+            </SheetContent>
         </Sheet>
     </div>
   );

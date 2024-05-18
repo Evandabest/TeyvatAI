@@ -4,6 +4,7 @@ import "./globals.css";
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import NavBar from "@/components/ui/Navbar";
+import Bottombar from "@/components/ui/Bottombar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default async function RootLayout({
       <body className={inter.className}>
       <div><NavBar/></div>
         {children}
+      <div><Bottombar/></div>
         </body>
     </html>
   );
