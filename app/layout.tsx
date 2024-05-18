@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import NavBar from "@/components/ui/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,10 @@ export default async function RootLayout({
  
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+      <div><NavBar/></div>
+        {children}
+        </body>
     </html>
   );
 }
