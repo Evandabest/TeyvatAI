@@ -1,9 +1,14 @@
+import { createClient } from "@/utils/supabase/server";
 
+const user = async ({params}: {params: {id: string}}) => {
+    const {id} = params;
+    const supabase = createClient();
+    const {data, error} = await supabase.from('profiles').select('*').eq('id', id).single();
+    console.log(data);
 
-const user = ({params}: {params: {id: string}}) => {
     return (
         <div>
-        <h1>User</h1>
+            <h1>{data.userName}</h1>
         </div>
     );
 }

@@ -16,17 +16,27 @@ const NavBar = () => {
     const goHome = () => {
         router.push('/home')
     }
+    const chat = () => {
+      router.push('/chats')
+  }
+  const inventory = () => {
+    router.push('/inventory')
+  }
+  const profile = () => {
+    router.push('/profile')
+  }
   return (
-    <div className='flex-row flex justify-evenly'>
+    <div className='flex-row flex justify-evenly sticky top-0'>
         <button onClick={goHome}><i className='bx bxs-home-circle'></i></button>
         <img className=' w-20' src="/logo.png" alt="logo" />
         <Sheet>
             <SheetTrigger><i className ='bx bx-menu'></i></SheetTrigger>
             <SheetContent className=' max-w-20'>
                     <SheetHeader>
-                        <SheetTrigger><i className='bx bx-message-rounded-dots' ></i></SheetTrigger>
-                        <SheetTrigger><i className='bx bxs-book' ></i></SheetTrigger>
-                        <SheetTrigger><i className='bx bxs-user' ></i></SheetTrigger>
+                        <SheetTrigger><button><i className ='bx bx-menu' ></i></button></SheetTrigger>
+                        <SheetTrigger><button onClick={chat}><i className='bx bx-message-rounded-dots' ></i></button></SheetTrigger>
+                        <SheetTrigger><button onClick={inventory}><i className='bx bxs-book' ></i></button></SheetTrigger>
+                        <SheetTrigger><button onClick={profile}><i className='bx bxs-user' ></i></button></SheetTrigger>
                 </SheetHeader>
             </SheetContent>
         </Sheet>
