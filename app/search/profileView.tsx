@@ -7,7 +7,7 @@ const ProfileViewForm = ({userId , username}: {userId: string, username: string}
     
     const handleProfileView = async (event: React.FormEvent) => {
         event.preventDefault();
-        await router.push(`/profile/${userId}`)
+        router.push(`/profile/${userId}`)
     }
 
     return (
