@@ -1,7 +1,9 @@
+"use server"
 import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/button";
+import AddFriend from "./addFriend";
 
-const user = async ({params}: {params: {id: string}}) => {
+const User = async ({params}: {params: {id: string}}) => {
     const {id} = params;
     const supabase = createClient();
     const {data, error} = await supabase.from('profiles').select('*').eq('id', id).single();
@@ -11,12 +13,24 @@ const user = async ({params}: {params: {id: string}}) => {
     }
     const userName = data?.username;
 
+    const {data: {user}} = await supabase.auth.getUser();
+    const sid = user?.id;
+    if (!sid) {
+        console.error("You must be logged in to add a friend");
+        return;
+    }
+    if (sid == id) {
+        console.error("You can't add yourself as a friend");
+    }
+
     return (
         <div>
-            <h1>{userName}</h1>
-            <Button>Add friend</Button>
+            <form>
+                <h1>{userName}</h1>
+                <AddFriend id={id} sid = {sid} />
+            </form>
         </div>
     );
 }
 
-export default user;
+export default User;
