@@ -19,6 +19,10 @@ const Home : ({}: any) => Promise<JSX.Element> = async ({}) => {
   return (
     <div>
       {email && <DisplayEmail user={{email}} />}
+      <h1>{email}</h1>
+      <form>
+        <button className="bg-black" formAction={logOut}>Log Out</button>
+      </form>
     </div>
   );
 };

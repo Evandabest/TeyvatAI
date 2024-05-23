@@ -1,6 +1,5 @@
 "use server"
 import { createClient } from "@/utils/supabase/server";
-import { Button } from "@/components/ui/button";
 import AddFriend from "./addFriend";
 
 const User = async ({params}: {params: {id: string}}) => {
@@ -27,7 +26,7 @@ const User = async ({params}: {params: {id: string}}) => {
         <div>
             <form>
                 <h1>{userName}</h1>
-                <AddFriend id={id} sid = {sid} />
+                <AddFriend props = {{id, sid}} />
             </form>
         </div>
     );
