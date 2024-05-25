@@ -9,7 +9,8 @@ const AddFriend = ({props}: {props: {id: string, sid: string}}) => {
     const sid = props.sid;
 
     const supabase = createClient();
-    const addFriends = async () => {
+    const addFriends = async (event: React.MouseEvent) => {
+        event.preventDefault();
         try {
             const { error } = await supabase.from('friend_requests').insert({sender_id: sid, receiver_id: id});
             if (error) {
