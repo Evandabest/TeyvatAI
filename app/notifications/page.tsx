@@ -43,7 +43,7 @@ const NotificationsPage = async () => {
             <div key={index}>
               <p>Time: {notification.time}</p>
               <p>Friend request from: {userName}</p>
-              <UpdateFriend props ={notification.sender} />
+              <UpdateFriend props ={{id: notification.sender}} />
             </div>
           );
         case 'post':
