@@ -61,23 +61,7 @@ const Chat = async () => {
     
     return (
         <>
-        <>
             <h1>Chat</h1>
-            {chats && chats.length > 0 && usernames ? (
-                chats.map((chat, index) => (
-                    <div>
-                        <p>{usernames[index]}</p>
-                        <p>{chat.message}</p>
-                    </div>
-                ))
-            ) : (
-                <>
-                    <p>No chats found</p>
-                    <NewChat props = {friends} />
-
-                </>
-            )}
-        </>
             {chats && chats.length > 0 && usernames ? (
                 chats.map((chat, index) => (
                     <div>
