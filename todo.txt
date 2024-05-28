@@ -1,0 +1,12 @@
+Application flow:
+
+✅    1. user signs up (will add google and other auth providers)
+✅    2. user logs in after being confirmed by magic link
+✅    3. user searches for another players name
+✅    4. user sends friend request
+✅    5. other player accepts (need to revist for edge cases)
+    6. user or other player start chat
+    7. user can send live updated messages (including photos and videos)
+    8. user can post (photos, videos or text)
+    9. other players can like the photo
+    10. users can like and comment

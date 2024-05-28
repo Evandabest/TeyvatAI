@@ -17,7 +17,11 @@ const AddFriend = ({props}: {props: {id: string, sid: string}}) => {
                 .from('friend_requests')
                 .select('*')
                 .eq('sender_id', id)
-                .eq('receiver_id', sid);
+                .eq('receiver_id', sid) ||
+                await supabase.from('friend_requests')
+                .select('*')
+                .eq('sender_id', sid)
+                .eq('receiver_id', id);
     
             if (fetchError) {
                 console.error('Error fetching existing friend requests:', fetchError);
@@ -25,7 +29,23 @@ const AddFriend = ({props}: {props: {id: string, sid: string}}) => {
             }
     
             if (existingRequests && existingRequests.length > 0) {
-                console.log('Friend request already exists');
+                const existingRequest = existingRequests[0];
+                if (existingRequest.status !== 'accepted') {
+                    const { error: updateError } = await supabase
+                        .from('friend_requests')
+                        .update({ status: 'pending' })
+                        .eq('id', existingRequest.id);
+            
+                    if (updateError) {
+                        console.error('Error updating friend request status:', updateError);
+                        return;
+                    }
+            
+                    console.log('Friend request status updated to pending');
+                    return;
+                }
+            
+                console.log('Friend request already exists and is accepted');
                 return;
             }
     
