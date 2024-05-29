@@ -57,7 +57,7 @@ const Chat = async () => {
     const usernames = friendsList?.map(friend => friend?.username); // Use the map method on the awaited result
     
     const friendList = friendsList;
-    console.log(friendList);
+    //console.log(friendList);
     
     return (
         <>
