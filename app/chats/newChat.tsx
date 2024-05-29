@@ -13,15 +13,19 @@ import {
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
 
+interface Friend {
+    id: string;
+    username: string;
+}
 
   
-  const NewChat = async (props) => {
+  const NewChat = async ({friend}: {friend: Friend[]}) => {
     const router = useRouter()
     const supabase = createClient()
     const {data: {user}} = await supabase.auth.getUser();
     const id = user?.id;
 
-    const startChat = async (friend) => {
+    const startChat = async ({id} : {id: string}) => {
         const { data: existingChat, error: fetchError } = await supabase
                 .from('chats')
                 .select('*')
@@ -37,7 +41,8 @@ import { useRouter } from "next/navigation"
         
         if (existingChat.length > 0) {
             console.log('Chat already exists');
-            router.push(existingChat[0].id)
+            const ChatId = existingChat[0].id
+            router.push(`/chats/${ChatId}`)
         }
 
         const { data: newChat, error: insertError } = await supabase.from('chats').insert({ id: `${id}--${friend}` })
@@ -48,7 +53,9 @@ import { useRouter } from "next/navigation"
         }
         console.log(newChat)
 
-        router.push(`/chats/${id}--${friend}`)
+        const Chatid = `${id}--${friend}`
+
+        router.push(`/chats/${Chatid}`)
 
     }
 
@@ -60,17 +67,17 @@ import { useRouter } from "next/navigation"
             <AlertDialogContent>
                 <AlertDialogTitle>Friends</AlertDialogTitle>
                 <AlertDialogCancel>x</AlertDialogCancel>
-                    {props && props.props && props.props.map((friend, index) => {
-                        return (
-                            <div key={index}>
-                                <AlertDialogDescription>
-                                    {friend.username}
-                                </AlertDialogDescription>
-                                <AlertDialogAction onClick={() => startChat(friend.id)}>Start Chat</AlertDialogAction>
-                            </div>
-                        )
-                    })}
-                    </AlertDialogContent>
+                {friend && friend.map((friend, index) => {
+                    return (
+                        <div key={index}>
+                            <AlertDialogDescription>
+                                {friend.username}
+                            </AlertDialogDescription>
+                            <AlertDialogAction onClick={() => startChat({ id: friend.id })}>Start Chat</AlertDialogAction>
+                        </div>
+                    )
+                })}
+            </AlertDialogContent>
                     </AlertDialog>
                 )
     }

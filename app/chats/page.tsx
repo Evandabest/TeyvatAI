@@ -1,6 +1,11 @@
 import { createClient } from "@/utils/supabase/server";
 import NewChat from "./newChat"
+import DisplayChats from "./displayChats"
 
+interface Friend {
+    id: string;
+    username: string;
+}
 const Chat = async () => {
     const supabase = createClient()
     const {data: {user}} = await supabase.auth.getUser();
@@ -34,7 +39,7 @@ const Chat = async () => {
         
         const friendIds = profile.friends;
 
-    const friends = await Promise.all(
+    const friends: Friend[] = await Promise.all(
         friendIds.map(async (friend_id: string) => {
             const { data: friend, error: friendError } = await supabase
                 .from('profiles')
@@ -47,14 +52,21 @@ const Chat = async () => {
                 return null;
             }
 
-            return { id: friend_id, username: friend.username };
+            const user: string = friend?.username;
+
+            return { id: friend_id, username: user };
         }));
 
         return friends.filter(Boolean);  // Remove null values
     }
 
-    const friendsList = await friends(); // Await the friends() function call
-    const usernames = friendsList?.map(friend => friend?.username); // Use the map method on the awaited result
+    const friendL = await friends(); // Await the friends() function call
+    if (!friendL) {
+        console.error('No friends found');
+        return;
+    }
+    const friendsList: Friend [] = friendL;
+    const usernames: string[] = friendsList?.map(friend => friend?.username); // Use the map method on the awaited result
     
     const friendList = friendsList;
     //console.log(friendList);
@@ -64,15 +76,15 @@ const Chat = async () => {
             <h1>Chat</h1>
             {chats && chats.length > 0 && usernames ? (
                 chats.map((chat, index) => (
-                    <div>
-                        <p>{usernames[index]}</p>
-                        <p>{chat.message}</p>
-                    </div>
+                    <>
+                        <DisplayChats chats = {usernames[index]} chatid = {chat.id} />
+                        <NewChat friend = {friendList} />
+                    </>
                 ))
             ) : (
                 <>
                     <p>No chats found</p>
-                    <NewChat props = {friendList} />
+                    <NewChat friend = {friendList} />
 
                 </>
             )}
