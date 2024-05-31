@@ -10,3 +10,6 @@ Application flow:
     8. user can post (photos, videos or text)
     9. other players can like the photo
     10. users can like and comment
+
+    Known Issues:
+    If a user tries to make a new chat with an already existing user, it does {user}--[object%20object]
