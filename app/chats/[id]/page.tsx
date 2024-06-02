@@ -2,7 +2,9 @@
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-//import inputMessage from "./InputMessage";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import InputMessage from "./inputMessage";
 
 
 
@@ -20,6 +22,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     const [current_id, setCurrentId] = useState("");
     const [reciever, setReciever] = useState("");
     const [receiverUserName, setReceiverUserName] = useState("");
+    const [message, setMessage] = useState<string>("");
     const supabase = createClient()
     const router = useRouter()
 
@@ -67,7 +70,8 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
             }
         }
         getInfo()
-    }, [])
+    }, [id])
+
     useEffect(() => {        
         const channel = supabase
                 .channel('table-db-changes')
@@ -90,24 +94,51 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
         }
     }, [])
     
+    const sendMessage = async (event: React.MouseEvent) => {
+        event.preventDefault();
+
+        const chatMessage = {
+            sender: current_id,
+            message: message,
+            timestamp: new Date().toISOString()
+        }
+
+        console.log(chats, chatMessage)
+        const latestMessage  = chats.append(chatMessage)
+        console.log(chats, chatMessage)
+        const { data: newMessage, error } = await supabase
+            .from('chats')
+            .update({ messages: latestMessage})
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error sending message:', error);
+        } else {
+            setMessage('');
+        }
+    }
+
     
     return (
         <>
-            import inputMessage from './inputMessage'; // Import the inputMessage component
-
-                        {chats ? (
-                        <>
-                            <p>Chat With {receiverUserName}</p>
-                            {chats?.map((message : any , index : any) => {
-                                return (
-                                    <p key={index}>{message}</p>
-                                )
-                            })}
-                            
-                        </>
-                        ) : (
-                <>
+            {chats ? (
+            <>
                 <p>Chat With {receiverUserName}</p>
+                {chats?.map((message : any , index : any) => {
+                    return (
+                        <p key={index}>{message}</p>
+                    )
+                })}
+                <div>
+                    <Input value={message} onChange={(e) => setMessage(e.target.value)} />
+                    <Button onClick={(event) => sendMessage(event)}>Send</Button>
+                </div>
+                
+
+            </>
+            ) : (
+                <>
+                    <p>Chat With {receiverUserName}</p>
                     <p>No messages</p>
                 </>
             )}
