@@ -29,7 +29,6 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     console.log(id, current_id, reciever, receiverUserName);
 
     useEffect(() => {
-    
         const getInfo = async () => {
             const {data: {user}} = await supabase.auth.getUser();
             const current_id = user?.id;
@@ -52,7 +51,9 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
 
             const messages = chats?.map(chat => chat.messages);
             if (messages) {
-                setChats(messages);
+                const message = messages[0]
+                setChats(message);
+                console.log(messages)
             }
             else {
                 console.error('Error fetching messages:', error);
@@ -70,7 +71,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
             }
         }
         getInfo()
-    }, [id])
+    }, [])
 
     useEffect(() => {        
         const channel = supabase
@@ -96,21 +97,22 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     
     const sendMessage = async (event: React.MouseEvent) => {
         event.preventDefault();
-
+    
         const chatMessage = {
             sender: current_id,
             message: message,
             timestamp: new Date().toISOString()
         }
-
-        console.log(chats, chatMessage)
-        const latestMessage  = chats.append(chatMessage)
+    
+        let latestMessage = chats ? [...chats.flat(), chatMessage] : [chatMessage];
+    
+        console.log(latestMessage)
         console.log(chats, chatMessage)
         const { data: newMessage, error } = await supabase
             .from('chats')
             .update({ messages: latestMessage})
             .eq('id', id);
-
+    
         if (error) {
             console.error('Error sending message:', error);
         } else {
@@ -126,7 +128,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
                 <p>Chat With {receiverUserName}</p>
                 {chats?.map((message : any , index : any) => {
                     return (
-                        <p key={index}>{message}</p>
+                        <p key={index}>{message.message}</p>
                     )
                 })}
                 <div>
