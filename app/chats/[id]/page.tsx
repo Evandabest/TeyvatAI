@@ -84,8 +84,8 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
                         table: 'chats',
                     },
                     (payload) => {
-                            const newMessages = (payload.new as { messages: any }).messages;
-                            setChats([newMessages]);
+                        const newMessages = (payload.new as { messages: any }).messages;
+                        setChats(newMessages);
                     }
                 )
                 .subscribe()
