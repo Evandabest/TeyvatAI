@@ -7,13 +7,14 @@ This is a user to user social media app and AI reccomender.
 Some intended features for the first release:
 
 - Users can signup for an account, add friends, and chat with them
-- Allow anonymous users to chat temporarily
+- Users can make, like, and comment on posts
 - Users can store Artifacts, Characters and Teams
 - Users can ask Teyvat's Tinker (AI Chatbot) to make artifact and team reccomendations
 
 Features for the far future:
 
 - Users can chat with Models trained on content creators (Tuonto, Brax, Zyox...)
+- Allow anonymous users to chat temporarily
 - Users can use their device camera to scan in artifacts
 - Mobile app version
 

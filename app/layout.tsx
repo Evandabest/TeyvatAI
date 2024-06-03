@@ -22,11 +22,11 @@ export default async function RootLayout({
  
   return (
     <html lang="en">
-      <body className={inter.className}>
       <div><NavBar/></div>
+      <body className={inter.className}>
         {children}
-      <div><Bottombar/></div>
         </body>
+      <footer><Bottombar/></footer>
     </html>
   );
 }
