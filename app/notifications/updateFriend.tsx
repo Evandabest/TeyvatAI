@@ -65,8 +65,10 @@ const UpdateFriend = ({props}: {props: {id: string}}) => {
 
     return (
       <>
-        <Button onClick={() => accept(senderId)}>Add Friend</Button>
-        <Button onClick={() => reject(senderId)}>Reject</Button>
+        <div className="flex flex-row justify-evenly my-4">
+          <Button onClick={() => accept(senderId)}>Add Friend</Button>
+          <Button onClick={() => reject(senderId)}>Reject</Button>
+        </div>
       </>
     )
 }

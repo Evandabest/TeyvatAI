@@ -73,21 +73,23 @@ const Chat = async () => {
     
     return (
         <>
-            <h1>Chat</h1>
-            {chats && chats.length > 0 && usernames ? (
-                chats.map((chat, index) => (
+            <div className="flex flex-col items-center justify-center">
+                <h1 className="m-auto text-2xl my-2">Chats</h1>
+                {chats && chats.length > 0 && usernames ? (
+                    chats.map((chat, index) => (
+                        <>
+                            <NewChat friend = {friendList} />
+                            <DisplayChats chats = {usernames[index]} chatid = {chat.id} />
+                        </>
+                    ))
+                ) : (
                     <>
-                        <DisplayChats chats = {usernames[index]} chatid = {chat.id} />
                         <NewChat friend = {friendList} />
-                    </>
-                ))
-            ) : (
-                <>
-                    <p>No chats found</p>
-                    <NewChat friend = {friendList} />
+                        <p>No chats found</p>
 
-                </>
-            )}
+                    </>
+                )}
+            </div>
         </>
     )
 }

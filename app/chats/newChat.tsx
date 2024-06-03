@@ -17,7 +17,6 @@ interface Friend {
     id: string;
     username: string;
 }
-
   
   const NewChat = async ({friend}: {friend: Friend[]}) => {
     const router = useRouter()
@@ -62,24 +61,28 @@ interface Friend {
 
 
     return (
-        <AlertDialog>
-            <AlertDialogTrigger>Start a new Chat</AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogTitle>Friends</AlertDialogTitle>
-                <AlertDialogCancel>x</AlertDialogCancel>
-                {friend && friend.map((friend, index) => {
-                    return (
-                        <div key={index}>
-                            <AlertDialogDescription>
-                                {friend.username}
-                            </AlertDialogDescription>
-                            <AlertDialogAction onClick={() => startChat({ id: friend.id })}>Start Chat</AlertDialogAction>
+            <AlertDialog>
+                <AlertDialogTrigger className="text-white bg-slate-400 rounded-md p-2">Start a new Chat</AlertDialogTrigger>
+                <AlertDialogContent className="flex flex-col items-center justify-center">
+                    <div className="flex flex-row items-center justify-center w-full">
+                        <AlertDialogTitle className="text-xl">Friends</AlertDialogTitle>
+                        <div className="flex flex-row items-center justify-end w-full">
+                        <AlertDialogCancel className="">X</AlertDialogCancel>
                         </div>
-                    )
-                })}
-            </AlertDialogContent>
-                    </AlertDialog>
-                )
+                    </div>
+                        {friend && friend.map((friend, index) => {
+                            return (
+                                <div key={index} className="flex flex-row items-center justify-between w-full">
+                                    <AlertDialogDescription className="text-black">
+                                        {friend.username}
+                                    </AlertDialogDescription>
+                                    <AlertDialogAction className="" onClick={() => startChat({ id: friend.id })}>Start Chat</AlertDialogAction>
+                                </div>
+                            )
+                        })}
+                </AlertDialogContent>
+            </AlertDialog>
+        )
     }
 
 export default NewChat;

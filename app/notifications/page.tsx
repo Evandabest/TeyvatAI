@@ -11,27 +11,33 @@ const NotificationsPage = async () => {
   if (data && data[0]) {
     notifications = data[0].notifications;
   }
-  console.log(notifications)
   
-  //
-  //console.log(notifications)
-
-  //const {time, type, sender} = notifications[0];
-  //console.log(time, type, sender)
-  //const users = await supabase.from('profiles').select('username').eq('id', sender);
-  //const userobj = users.data ? users.data[0] : null;
-  //const userName = userobj ? userobj.username : null;
-
-
   const usernames = await Promise.all(
     notifications.map((notification: any) => 
       supabase.from('profiles').select('username').eq('id', notification.sender)
     )
   );
 
+  function getTimePassed(timestamp: string): string {
+    const now = new Date();
+    const past = new Date(timestamp);
+    const diffMs = now.getTime() - past.getTime(); // milliseconds between now & past
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24)); // days
+    const diffHrs = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // hours
+    const diffMins = Math.round(((diffMs % (1000 * 60 * 60)) / (1000 * 60))); // minutes
+    if (diffDays > 0) {
+      return `${diffDays}d ago`;
+    }
+    else {
+      return `${diffHrs}h, ${diffMins}m ago`;
+    }
+    
+    
+  }
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="m-auto text-2xl my-2">Notifications</h1>
     {notifications && notifications.map((notification: any, index: any) => {
       // Get the username for this notification
       const userobj = usernames[index].data ? usernames[index].data[0] : null;
@@ -40,9 +46,9 @@ const NotificationsPage = async () => {
       switch (notification.type) {
         case 'friend request':
           return (
-            <div key={index}>
-              <p>Time: {notification.time}</p>
-              <p>Friend request from: {userName}</p>
+            <div key={index} className="bg-slate-400 rounded-lg p-4">
+              <p className="text-white text-lg">Friend request from {userName}</p>
+              <p className="text-white text-sm">{getTimePassed(notification.time)}</p>
               <UpdateFriend props ={notification.sender} />
             </div>
           );

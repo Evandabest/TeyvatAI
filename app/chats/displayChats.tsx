@@ -13,9 +13,9 @@ const DisplayChats: React.FC<DisplayChatsProps> = ({ chats, chatid }) => {
     }
 
     return (
-        <div onClick={() => openChat(chatid)}>
-            <p>{chats}</p>
-        </div>
+        <button className="flex bg-red-400 rounded-md w-1/2 my-4 items-center justify-center p-10" onClick={() => openChat(chatid)}>
+            <p className="m-auto text-white">{chats}</p>
+        </button>
     )
 }
 

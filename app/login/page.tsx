@@ -8,8 +8,10 @@ export default function LoginPage() {
     <form className='w-72 m-auto items-center flex flex-col'>
       <Input className=' text-black my-4' placeholder='Email' id="email" name="email" type="email" required />
       <Input className='text-black my-4' placeholder='Password' id="password" name="password" type="password" required />
-      <Button className='my-2' formAction={login}>Log in</Button>
-      <Button className='my-2' formAction={signup}>Sign up</Button>
+      <div className = "flex flex-row">
+        <Button className='my-2 mx-2' formAction={login}>Log in</Button>
+        <Button className='my-2 mx-2' formAction={signup}>Sign up</Button>
+      </div>
     </form>
   )
 }
