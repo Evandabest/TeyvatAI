@@ -124,29 +124,29 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     return (
         <>
             {chats ? (
-            <>
-                <div className="flex flex-col m-auto rounded-md bg-slate-700 w-1/2">
+                <>
+                <div className="flex flex-col m-auto rounded-md bg-slate-700 w-1/2 h-full">
                     <p className="m-auto my-4 text-white">Chat With {receiverUserName}</p>
+                    <div className="mx-4 flex flex-col bg-white rounded-md overflow-scroll">
                     {chats?.map((message : any , index : any) => (
                         message.sender === current_id ? (
-                            <p className=" text-end mx-4 text-white my-2" key={index}>{message.message}</p>
+                            <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
                         ) : (
                             <>
-                                <div className="mx-4 flex flex-col">
-                                <p className="text-start text-white" key={index}>{message.message}</p>
-                                <p className="text-start text-gray-300 text-sm">{receiverUserName}</p>
-                                </div>
+                                <p className="text-start mx-4 text-black" key={index}>{message.message}</p>
+                                <p className="text-start text-gray-300 mx-4 text-sm">{receiverUserName}</p>
                             </>
                         )
                     ))}
-                    <div className="flex my-4 flex-row m-auto">
-                        <Input className="w-full" value={message} onChange={(e) => setMessage(e.target.value)} />
-                        <Button onClick={(event) => sendMessage(event)}>Send</Button>
+                    </div>
+                    <div className="flex my-4 flex-row m-auto w-full">
+                        <Input className="w-full mx-2" value={message} onChange={(e) => setMessage(e.target.value)} />
+                        <Button  className = "mx-2" onClick={(event) => sendMessage(event)}>Send</Button>
                     </div>
                 </div>
             </>
         )    : (
-                <>
+            <>
                     <p>Chat With {receiverUserName}</p>
                     <p>No messages</p>
                 </>
