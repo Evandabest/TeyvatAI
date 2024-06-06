@@ -26,7 +26,7 @@ const NavBar = () => {
     router.push('/profile')
   }
   return (
-    <div className='flex-row flex justify-evenly sticky top-0'>
+    <div className='flex-row flex justify-evenly top-0'>
         <button onClick={goHome}><i className='bx bxs-home-circle'></i></button>
         <img className=' w-20' src="/logo.png" alt="logo" />
         <Sheet>

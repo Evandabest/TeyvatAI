@@ -15,7 +15,7 @@ const Bottombar = () => {
     }
     return (
         <>
-        <div className="flex-row flex justify-evenly mt-0 fixed bottom-0 w-full">
+        <div className="flex-row flex justify-evenly mt-0 bottom-0 w-full">
             <button onClick={notification}><i className='bx bxs-bell'></i></button>
             <button onClick={post}><i className='bx bx-plus' ></i></button>
             <button onClick={search}><i className='bx bx-search-alt-2' ></i></button>
