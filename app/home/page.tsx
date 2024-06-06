@@ -17,12 +17,13 @@ export async function getProfile() {
 const Home : ({}: any) => Promise<JSX.Element> = async ({}) => {
     const email = await getProfile();
   return (
-    <div>
-      {email && <DisplayEmail user={{email}} />}
-      <h1>{email}</h1>
-      <form>
-        <button className="bg-black" formAction={logOut}>Log Out</button>
-      </form>
+    <div className="flex flex-col h-screen">
+      <div className="mx-auto">
+        <h1>User email: {email}</h1>
+        <form>
+          <button className="bg-black" formAction={logOut}>Log Out</button>
+        </form>
+      </div>
     </div>
   );
 };

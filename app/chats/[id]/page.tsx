@@ -125,16 +125,16 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
         <>
             {chats ? (
                 <>
-                <div className="flex flex-col m-auto rounded-md bg-slate-700 w-1/2 h-full">
+                <div className="flex flex-col m-auto rounded-md bg-slate-700 w-1/2 h-screen">
                     <p className="m-auto my-4 text-white">Chat With {receiverUserName}</p>
-                    <div className="mx-4 flex flex-col bg-white rounded-md overflow-scroll">
+                    <div className="mx-4 flex flex-grow flex-col bg-white overflow-auto">
                     {chats?.map((message : any , index : any) => (
                         message.sender === current_id ? (
                             <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
                         ) : (
                             <>
+                                <p className="text-start text-gray-500 mx-4 text-sm">{receiverUserName}</p>
                                 <p className="text-start mx-4 text-black" key={index}>{message.message}</p>
-                                <p className="text-start text-gray-300 mx-4 text-sm">{receiverUserName}</p>
                             </>
                         )
                     ))}

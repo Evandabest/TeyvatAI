@@ -14,13 +14,13 @@ const Bottombar = () => {
         router.push('/search')
     }
     return (
-        <>
-        <div className="flex-row flex justify-evenly mt-0 bottom-0 w-full">
-            <button onClick={notification}><i className='bx bxs-bell'></i></button>
-            <button onClick={post}><i className='bx bx-plus' ></i></button>
-            <button onClick={search}><i className='bx bx-search-alt-2' ></i></button>
+        <div className="flex-col flex h-5 mt-0 bottom-0 w-full">
+            <div className="flex-row flex justify-evenly">
+                <button onClick={notification}><i className='bx bxs-bell'></i></button>
+                <button onClick={post}><i className='bx bx-plus' ></i></button>
+                <button onClick={search}><i className='bx bx-search-alt-2' ></i></button>
+            </div>
         </div>
-        </>
     );
 }
 

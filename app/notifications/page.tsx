@@ -36,8 +36,9 @@ const NotificationsPage = async () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col h-screen items-center">
       <h1 className="m-auto text-2xl my-2">Notifications</h1>
+      <div className="flex flex-col overflow-y-auto">
     {notifications && notifications.map((notification: any, index: any) => {
       // Get the username for this notification
       const userobj = usernames[index].data ? usernames[index].data[0] : null;
@@ -46,7 +47,7 @@ const NotificationsPage = async () => {
       switch (notification.type) {
         case 'friend request':
           return (
-            <div key={index} className="bg-slate-400 rounded-lg p-4">
+            <div key={index} className="bg-slate-400 rounded-lg my-4 p-4">
               <p className="text-white text-lg">Friend request from {userName}</p>
               <p className="text-white text-sm">{getTimePassed(notification.time)}</p>
               <UpdateFriend props ={notification.sender} />
@@ -70,6 +71,7 @@ const NotificationsPage = async () => {
           return null;
       }
     })}
+    </div>
   </div>
   );
 }
