@@ -1,6 +1,6 @@
 "use client"
 import { createClient } from "@/utils/supabase/client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,8 +25,13 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     const [message, setMessage] = useState<string>("");
     const supabase = createClient()
     const router = useRouter()
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     console.log(id, current_id, reciever, receiverUserName);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
 
     useEffect(() => {
         const getInfo = async () => {
@@ -72,6 +77,10 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
         }
         getInfo()
     }, [])
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [chats])
 
     useEffect(() => {        
         const channel = supabase
@@ -138,6 +147,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
                             </>
                         )
                     ))}
+                    <div ref={messagesEndRef} />
                     </div>
                     <div className="flex my-4 flex-row m-auto w-full">
                         <Input className="w-full mx-2" value={message} onChange={(e) => setMessage(e.target.value)} />
