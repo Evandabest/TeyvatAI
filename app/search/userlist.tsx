@@ -7,11 +7,12 @@ const UsersList = async ({query}: {query: string}) => {
     "use server"
     const {data: users} = await fetchUsersSearch(query);
 
+
     return (
         <>
             {users? users.map(user => (
                 <ProfileViewForm key={user.id} userId={user.id} username={user.username} />
-            )): null}
+            )): <p>none found</p>}
         </>
     );
 };
