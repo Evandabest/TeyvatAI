@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import { headers } from 'next/headers'
+import { getURL } from '@/utils/helpers'
 
 export async function login(formData: FormData) {
   const supabase = createClient()
@@ -49,12 +49,21 @@ export async function signup(formData: FormData) {
 
 export async function signingoogle() { 
   const supabase = createClient();
-  const locationOrigin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
-  supabase.auth.signInWithOAuth({
-     provider: 'google',
-     options: {
-       redirectTo: locationOrigin + '/auth/callback', 
-     }
+  const redirectUrl = getURL("/auth/callback")
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: redirectUrl,
+    },
+  })
+
+  if (error) {
+    redirect('/login')
+}
   
-  });
+  if (data.url) {
+    revalidatePath('/', 'layout')
+    redirect(data.url) 
+  }
+  
 }
