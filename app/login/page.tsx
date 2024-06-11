@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input'
-import { login, signup, signingoogle } from './actions'
+import { login, signup } from './actions'
 import { Button } from '@/components/ui/button'
 
 
@@ -11,7 +11,8 @@ export default function LoginPage() {
       <div className = "flex flex-row">
         <Button className='my-2 mx-2' formAction={login}>Log in</Button>
         <Button className='my-2 mx-2' formAction={signup}>Sign up</Button>
-        <Button className = "my-2 mx-2" formAction={signingoogle}>Google</Button>
+        {//<Button className = "my-2 mx-2" formAction={signingoogle}>Google</Button>
+}
       </div>
     </form>
   )
