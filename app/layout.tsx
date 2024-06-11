@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import NavBar from "@/components/ui/Navbar";
 import Bottombar from "@/components/ui/Bottombar";
+import Chatbot from "@/components/Chatbot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default async function RootLayout({
       <body className= {`h-screen ${inter.className}`}>
         <header><NavBar/></header>
         <main className="">{children}</main>
+        <Chatbot/>
         <footer><Bottombar/></footer>
       </body>
     </html>
