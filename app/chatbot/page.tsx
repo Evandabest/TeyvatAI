@@ -1,32 +1,16 @@
 "use client"
-import { createClient } from "@/utils/supabase/client";
-import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { createClient } from "@/utils/supabase/client"
+import { useState, useEffect, useRef } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 
-
-
-interface ChatsProps {
-    id: any;
-    sender: any;
-    receiver: any;
-    messages: any;
-    receiverUserName: any;
-}
-
-
-const Chats = ({params: {id}}: {params: {id: string}}) => {
+const Chatbot2 = () => {
     const [chats, setChats] = useState<any>([]);
     const [current_id, setCurrentId] = useState("");
-    const [reciever, setReciever] = useState("");
-    const [receiverUserName, setReceiverUserName] = useState("");
     const [message, setMessage] = useState<string>("");
     const supabase = createClient()
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-    console.log(id, current_id, reciever, receiverUserName);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -35,47 +19,38 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     useEffect(() => {
         const getInfo = async () => {
             const {data: {user}} = await supabase.auth.getUser();
-            const current_id = user?.id;
-            //fix this, same name as the state currentid
-            if (current_id) {
-                setCurrentId(current_id);
+            const id = user?.id;
+            if (id) {
+                setCurrentId(id);
+                console.log(id)
+                return id
             }
             else {
                 console.error('Error fetching user:')
                 return;
             }
+        }
+        const getChat = async () => {
+            const id = await getInfo()
+            if (id) {
+                const { data, error } = await supabase
+                    .from('chatbot')
+                    .select('messages')
+                    .eq('id', id);
+                console.log(data, error)
 
-            const sender = current_id;
-            const receiver = id?.split('--').filter((id: string) => id !== sender)[0];
-            setReciever(receiver);
-        
-            const { data: chats, error } = await supabase
-                .from('chats')
-                .select('messages')
-                .eq('id', id);
-
-            const messages = chats?.map(chat => chat.messages);
-            if (messages) {
-                const message = messages[0]
-                setChats(message);
-                console.log(messages)
-            }
-            else {
-                console.error('Error fetching messages:', error);
-                return;
-            }
-
-            const recieverUser = await supabase.from('profiles').select('username').eq('id', receiver).single();
-            const reciverUserName = recieverUser?.data?.username;
-            if (reciverUserName) {
-                setReceiverUserName(reciverUserName);
-            }
-            else {
-                console.error('Error fetching reciever username:');
-                return;
+                //const messages = chats?.map(chat => chat.messages);
+                //if (messages) {
+                //    const message = messages[0]
+                //    setChats(message);
+                //}
+                //else {
+                //    console.error('Error fetching messages:', error);
+                //    return;
+                //}
             }
         }
-        getInfo()
+        getChat()
     }, [])
 
     useEffect(() => {
@@ -120,7 +95,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
         const { data: newMessage, error } = await supabase
             .from('chats')
             .update({ messages: latestMessage})
-            .eq('id', id);
+            .eq('id', current_id);
     
         if (error) {
             console.error('Error sending message:', error);
@@ -135,14 +110,14 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
             {chats ? (
                 <>
                 <div className="flex flex-col m-auto rounded-md bg-slate-700 w-1/2 h-screen">
-                    <p className="m-auto my-4 text-white">Chat With {receiverUserName}</p>
+                    <p className="m-auto my-4 text-white">Chat With Teyvat's Tinker</p>
                     <div className="mx-4 flex flex-grow flex-col bg-white overflow-auto">
                     {chats?.map((message : any , index : any) => (
                         message.sender === current_id ? (
                             <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
                         ) : (
                             <>
-                                <p className="text-start text-gray-500 mx-4 text-sm">{receiverUserName}</p>
+                                <p className="text-start text-gray-500 mx-4 text-sm">Teyvat's Tinker</p>
                                 <p className="text-start mx-4 text-black" key={index}>{message.message}</p>
                             </>
                         )
@@ -157,7 +132,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
             </>
         )    : (
             <>
-                    <p>Chat With {receiverUserName}</p>
+                    <p>Chat With Teyvat's Tinker</p>
                     <p>No messages</p>
                 </>
             )}
@@ -165,4 +140,4 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     )
 }
 
-export default Chats;
+export default Chatbot2

@@ -26,7 +26,8 @@ export default async function RootLayout({
       <body className= {`h-screen ${inter.className}`}>
         <header><NavBar/></header>
         <main className="">{children}</main>
-        <Chatbot/>
+        {//<Chatbot/>
+}
         <footer><Bottombar/></footer>
       </body>
     </html>

@@ -141,12 +141,14 @@ const Chatbot = () => {
                             </div>
                         </AlertDialogDescription>
                         </>
-                        ) : (
-                            <AlertDialogDescription>
-                                <>
-                                    <p>No messages</p>
-                                </>
-                            </AlertDialogDescription>
+                            )  : (
+                        <>
+                                <p>No messages</p>
+                                <div className="flex my-4 flex-row m-auto w-full">
+                                    <Input className="w-full mx-2" value={message} onChange={(e) => setMessage(e.target.value)} />
+                                    <Button  className = "mx-2" onClick={(event) => sendMessage(event)}>Send</Button>
+                                </div>
+                            </>
                         )}
                     </>
                     <AlertDialogFooter>
