@@ -17,7 +17,7 @@ const Chatbot2 = () => {
             const userId = user?.id;
             if (userId) setId(userId)
 
-            try {
+            try { 
             const {data , error} = await supabase.from("chatbot").select("messages").eq("id", userId)
             if (data) console.log(data[0])
             console.log(userId)
