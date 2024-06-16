@@ -39,10 +39,10 @@ const Chatbot = () => {
             }
             const { data: chats, error } = await supabase
                 .from('chatbot')
-                .select('history')
+                .select('messages')
                 .eq('id', current_id);
 
-            const messages = chats?.map(chat => chat.history);
+            const messages = chats?.map(chat => chat.messages);
             if (messages) {
                 const message = messages[0]
                 setChats(message);
@@ -96,7 +96,7 @@ const Chatbot = () => {
         console.log(chats, chatMessage)
         const { data: newMessage, error } = await supabase
             .from('chatbot')
-            .update({ history: latestMessage})
+            .update({ messages: latestMessage})
             .eq('id', current_id);
     
         if (error) {
