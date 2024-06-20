@@ -14,7 +14,7 @@ app = Flask(__name__)
 def api(prompt):
     if request.method == 'POST':
         data = request.get_json()
-        response = supabase.from_("chatbot").update([{"messages": prompt, "message": data['message']}])
+        response = supabase.from_("chatbot").update([{"messages": prompt}])
         return jsonify(response)
 
 

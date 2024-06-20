@@ -1,0 +1,6 @@
+flask
+selenium
+webdriver_manager
+youtube-transcript-api
+langchain-text-splitters
+undetected_chromedriver
