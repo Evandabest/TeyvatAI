@@ -1,6 +1,11 @@
 flask
 selenium
-webdriver_manager
 youtube-transcript-api
-langchain-text-splitters
 undetected_chromedriver
+langchain-text-splitters
+langchain-google-genai
+google-generativeai
+python-dotenv
+supabase
+numpy
+

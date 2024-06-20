@@ -3,20 +3,24 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 import undetected_chromedriver as uc
 from youtube_transcript_api import YouTubeTranscriptApi
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
 from math import ceil
-
 import time
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")  
 chrome_options.add_argument("--disable-gpu")
 
-# Initialize the Chrome driver
+llm = ChatGoogleGenerativeAI(model="gemini-flash")
+result = llm.invoke("Tell me about the character Albedo in Genshin Impact")
+
+
 driver = uc.Chrome(options=chrome_options, service=Service(uc))
+embeddings = GoogleGenerativeAIEmbeddings(model="model/embedding-004")
 
 genshin_impact_characters = [
     'Albedo'
@@ -38,7 +42,7 @@ for i in genshin_impact_characters:
 
     video_ids = []
     for i, link in enumerate(video_links):
-        if i < 5:
+        if i < 1:
             href = link.get_attribute('href')
             video_id = href.split('v=')[-1]
             video_ids.append(video_id)
@@ -57,11 +61,15 @@ for i in genshin_impact_characters:
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=ceil(len(combined_transcript)/10),
             chunk_overlap=ceil(len(combined_transcript)/100),
-            #chunk_size=200,
-            #chunk_overlap=20,
+            #chunk_size=400,
+            #chunk_overlap=40,
             length_function=len,
             is_separator_regex=False,
         )
 
         texts = text_splitter.create_documents([combined_transcript])
         print(texts[0])
+
+        vectors = embeddings.embed_documents(texts)
+
+        len(vectors), len(vectors[0])
