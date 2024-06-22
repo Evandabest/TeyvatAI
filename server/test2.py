@@ -30,16 +30,20 @@ embeddings = GoogleGenerativeAIEmbeddings (model="models/embedding-001" )
 
 def fetch_embeddings_from_supabase():
     # Example: Fetch embeddings from Supabase
-    query = supabase.table('vectors').select("*").limit(1)
-    response = query.execute()
-    print(response[0])
-    #return response.get('data')
-    #res = {}
-    #data = response.json()
-    #for row in data:
-    #    res[row['transcript_chunk']] = res[row["embedding"]]  # Store the entire row as value
+    query = supabase.table('vectors').select("*").limit(1).execute()
+    #print(type(query))
+
+    #response = supabase.table('vectors').select('*').limit(1).execute()
+
+    #data = response.data[0]
+    #print('Data:', data["transcript_chunk"])
+
+    
+    res = {}
+    data = query.data[0]
+    res[data["transcript_chunk"]] = data["embedding"]
 #
-    #return res
+    return res
 #
 
 
@@ -64,6 +68,7 @@ if __name__ == "__main__":
     
     # Get embeddings from Supabase
     embeddings_data = fetch_embeddings_from_supabase()
+    print(embeddings_data)
     
     if embeddings_data:
         # Extract embeddings and transcript chunks
