@@ -21,10 +21,9 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
 
 driver = uc.Chrome(options=chrome_options, service=Service(uc))
-# Load environment variables from a .env file
+
 load_dotenv()
 
-# Configure the generative AI with the API key
 api_key = os.environ.get("GOOGLE_API_KEY")
 if api_key is None:
     raise ValueError("GOOGLE_API_KEY environment variable not found.")
@@ -44,12 +43,9 @@ llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=api_key)
 
 embeddings = GoogleGenerativeAIEmbeddings (model="models/embedding-001" )
 
-# Invoke the model with a prompt
-#result = llm.invoke("Tell me about the character Albedo in Genshin Impact")
-
 
 genshin_impact_characters = [
-    'Albedo', "Yelan"
+    "albedo",
 ]
 
 for i in genshin_impact_characters:    
@@ -69,7 +65,7 @@ for i in genshin_impact_characters:
 
     video_ids = []
     for i, link in enumerate(video_links):
-        if i < 5:
+        if i < 10:
             href = link.get_attribute('href')
             video_id = href.split('v=')[-1]
             video_ids.append(video_id)
@@ -79,38 +75,75 @@ for i in genshin_impact_characters:
     driver.quit()
 
     for video_id in video_ids:
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
         combined_transcript = ""
-        for segment in transcript:
-            combined_transcript += segment['text'] + " "
-        print(combined_transcript, len(combined_transcript))
-    
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=ceil(len(combined_transcript)/10),
-            chunk_overlap=ceil(len(combined_transcript)/100),
-            #chunk_size=400,
-            #chunk_overlap=40,
-            length_function=len,
-            is_separator_regex=False,
-        )
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        if transcript:
+            for segment in transcript:
+                combined_transcript += segment['text'] + " "
+                
+                text_splitter = RecursiveCharacterTextSplitter(
+                #chunk_size=ceil(len(combined_transcript)/10),
+                #chunk_overlap=ceil(len(combined_transcript)/100),
+                chunk_size=800,
+                chunk_overlap=40,
+                length_function=len,
+                is_separator_regex=False,
+            )
 
-        documents = text_splitter.create_documents([combined_transcript])
-        texts = [doc.page_content for doc in documents] 
+            documents = text_splitter.create_documents([combined_transcript])
+            texts = [doc.page_content for doc in documents] 
 
-        vectors = embeddings.embed_documents(texts)
+            vectors = embeddings.embed_documents(texts)
 
-        for text, vector in zip(texts, vectors):
-            response = supabase.table('vectors').insert({
-                'character_name': character,
-                'video_id': video_id,
-                'transcript_chunk': text,
-                'embedding': vector
-            }).execute()
+            for text, vector in zip(texts, vectors):
+                response = supabase.table('vectors').insert({
+                    'character_name': character,
+                    'video_id': video_id,
+                    'transcript_chunk': text,
+                    'embedding': vector
+                }).execute()
 
-            if 'error' in response:
-                print(f"Error inserting data: {response['error']}")
+                if 'error' in response:
+                    print(f"Error inserting data: {response['error']}")
+                else:
+                    print("Data inserted successfully")
             else:
-                print("Data inserted successfully")
+                print("No transcripts found")
+                continue
+
+    #for video_id in video_ids:
+    #    transcript = YouTubeTranscriptApi.get_transcript(video_id)
+    #    combined_transcript = ""
+    #    for segment in transcript:
+    #        combined_transcript += segment['text'] + " "
+    #    print(combined_transcript, len(combined_transcript))
+    #
+    #    text_splitter = RecursiveCharacterTextSplitter(
+    #        #chunk_size=ceil(len(combined_transcript)/10),
+    #        #chunk_overlap=ceil(len(combined_transcript)/100),
+    #        chunk_size=800,
+    #        chunk_overlap=40,
+    #        length_function=len,
+    #        is_separator_regex=False,
+    #    )
+#
+    #    documents = text_splitter.create_documents([combined_transcript])
+    #    texts = [doc.page_content for doc in documents] 
+#
+    #    vectors = embeddings.embed_documents(texts)
+#
+    #    for text, vector in zip(texts, vectors):
+    #        response = supabase.table('vectors').insert({
+    #            'character_name': character,
+    #            'video_id': video_id,
+    #            'transcript_chunk': text,
+    #            'embedding': vector
+    #        }).execute()
+#
+    #        if 'error' in response:
+    #            print(f"Error inserting data: {response['error']}")
+    #        else:
+    #            print("Data inserted successfully")
                 
                 
 

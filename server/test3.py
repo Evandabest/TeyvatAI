@@ -3,6 +3,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import google.generativeai as genai
 from supabase import create_client, Client
 import numpy as np
+import ast
 import os
 from dotenv import load_dotenv
 
@@ -51,10 +52,15 @@ def calculate_similarity(prompt_embedding, target_embeddings):
     # Calculate cosine similarity between prompt_embedding and each target_embedding
     similarities = []
     for target in target_embeddings:
-        target_vector = np.array(target['embedding'])  # Ensure target['embedding'] is converted to NumPy array
+        target_vector = np.array(target['embedding'])# Ensure target['embedding'] is converted to NumPy array
+        similarity_score = np.dot(prompt_embedding, target_vector) / (np.linalg.norm(prompt_embedding) * np.linalg.norm(target_vector))
+        similarities.append((target['transcript_chunk'], similarity_score))
+
+        
         similarity_score = np.dot(prompt_embedding, target_vector) / (np.linalg.norm(prompt_embedding) * np.linalg.norm(target_vector))
         similarities.append((target['transcript_chunk'], similarity_score))
     
+        
     # Sort by similarity score (higher is more similar)
     similarities.sort(key=lambda x: x[1], reverse=True)
     
@@ -89,13 +95,23 @@ if __name__ == "__main__":
             #    print("---")
             
             # Use the most similar transcript chunk to generate a response from the generative AI model
+            #if similarities:
+            #    most_similar_transcript = similarities[0][0]  # Choose the most similar transcript chunk
+            #    prompt = prompt + "Use this following information as context if needed" + most_similar_transcript
+            #    response = llm.invoke(prompt)
+            #    print(f"Generated Response: {response.content}")
+            #else:
+            #    print("No similar transcript chunks found.")
+
+         # Use the most similar transcript chunks to generate a response from the generative AI model
             if similarities:
-                most_similar_transcript = similarities[0][0]  # Choose the most similar transcript chunk
-                prompt = prompt + "Use this following information as context if needed" + most_similar_transcript
+                top_5_similar_transcripts = similarities[:5]  # Get the top 5 items
+                combined_transcripts = " ".join([transcript[0] for transcript in top_5_similar_transcripts])  # Combine the transcript chunks
+                prompt = prompt + " Use this following information as context if needed: " + combined_transcripts
                 response = llm.invoke(prompt)
                 print(f"Generated Response: {response.content}")
             else:
-                print("No similar transcript chunks found.")
+                print("No similar transcript chunks found.")   
         else:
             print("No embeddings data found from Supabase.")
     except Exception as e:
