@@ -38,12 +38,12 @@ def fetchContext (query_embedding):
 
 if __name__ == "__main__":
     try:
-
-        prompt = "what are good weapon options for yelan?"
+        
+        prompt = "what stats do albedo scale off of?"
 
         if prompt:
             # Generate embedding for the prompt
-            prompt_embedding = embeddings.embed_documents(prompt)[0]
+            prompt_embedding = embeddings.embed_documents(prompt)[0]  
             
             # Calculate similarity
             similarities = fetchContext(prompt_embedding)

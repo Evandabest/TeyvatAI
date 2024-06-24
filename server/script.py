@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import undetected_chromedriver as uc
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api._errors import TranscriptsDisabled
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from math import ceil
 from supabase import create_client, Client
@@ -84,8 +85,8 @@ for i in genshin_impact_characters:
                 text_splitter = RecursiveCharacterTextSplitter(
                 #chunk_size=ceil(len(combined_transcript)/10),
                 #chunk_overlap=ceil(len(combined_transcript)/100),
-                chunk_size=800,
-                chunk_overlap=40,
+                chunk_size=1000,
+                chunk_overlap=50,
                 length_function=len,
                 is_separator_regex=False,
             )
@@ -107,9 +108,9 @@ for i in genshin_impact_characters:
                     print(f"Error inserting data: {response['error']}")
                 else:
                     print("Data inserted successfully")
-            else:
-                print("No transcripts found")
-                continue
+        else:
+            print("No transcripts found")
+            continue
 
     #for video_id in video_ids:
     #    transcript = YouTubeTranscriptApi.get_transcript(video_id)
