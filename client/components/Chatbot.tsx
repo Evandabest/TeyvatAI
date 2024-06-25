@@ -131,7 +131,7 @@ const Chatbot = () => {
                         {chats ? (
                             <>
                          <AlertDialogDescription>
-                            <div className="flex flex-col m-auto rounded-md bg-slate-700 w-1/2 h-screen">
+                            <div className="flex flex-col m-auto rounded-md bg-slate-700 h-screen">
                                 <p className="m-auto my-4 text-white">Chat With Teyvat's Tinker</p>
                                 <div className="mx-4 flex flex-grow flex-col bg-white overflow-auto">
                                 {chats?.map((message : any , index : any) => (

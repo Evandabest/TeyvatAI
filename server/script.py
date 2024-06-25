@@ -46,7 +46,7 @@ embeddings = GoogleGenerativeAIEmbeddings (model="models/embedding-001" )
 
 
 genshin_impact_characters = [
-    "albedo",
+    "yelan",
 ]
 
 for i in genshin_impact_characters:    
