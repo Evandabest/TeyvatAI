@@ -24,8 +24,8 @@ if not supabase_url or not supabase_key:
 supabase: Client = create_client(supabase_url, supabase_key)
 
 # Instantiate the language model and embeddings
-llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=api_key)
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
+embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
 
 app = Flask(__name__)
 
@@ -50,7 +50,8 @@ def api():
         if similarities:
             similarities = [item['transcript_chunk'] for item in similarities]
             combined_transcripts = " ".join(similarities)
-            prompt_with_context = prompt + " Use this following information as context if needed: " + combined_transcripts
+            print(combined_transcripts)
+            prompt_with_context = prompt + "Only answer the question asked and Use this following information as context if needed: " + combined_transcripts
             response = llm.invoke(prompt_with_context)
             chatMessage = {
                 "sender": "TeyvatAI",

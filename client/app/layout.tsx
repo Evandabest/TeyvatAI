@@ -23,11 +23,11 @@ export default async function RootLayout({
  
   return (
     <html lang="en">
-      <body className= {`h-screen ${inter.className}`}>
-        <header><NavBar/></header>
-        <main className="">{children}</main>
+      <body className= {` flex flex-col min-h-screen ${inter.className}`}>
+        <NavBar/>
+        <main className="flex-grow">{children}</main>
         <Chatbot/>
-        <footer><Bottombar/></footer>
+        <Bottombar/>
       </body>
     </html>
   );

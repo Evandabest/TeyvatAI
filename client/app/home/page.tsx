@@ -17,7 +17,7 @@ export async function getProfile() {
 const Home : ({}: any) => Promise<JSX.Element> = async ({}) => {
     const email = await getProfile();
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       <div className="mx-auto">
         <h1>User email: {email}</h1>
         <form>

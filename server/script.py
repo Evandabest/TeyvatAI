@@ -40,9 +40,8 @@ if not supabase_url or not supabase_key:
 supabase: Client = create_client(supabase_url, supabase_key)
 
 # Instantiate the language model with the specified model name and API key
-llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=api_key)
-
-embeddings = GoogleGenerativeAIEmbeddings (model="models/embedding-001" )
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
+embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
 
 
 genshin_impact_characters = [
@@ -108,45 +107,7 @@ for i in genshin_impact_characters:
                     print(f"Error inserting data: {response['error']}")
                 else:
                     print("Data inserted successfully")
-        else:
-            print("No transcripts found")
-            continue
-
-    #for video_id in video_ids:
-    #    transcript = YouTubeTranscriptApi.get_transcript(video_id)
-    #    combined_transcript = ""
-    #    for segment in transcript:
-    #        combined_transcript += segment['text'] + " "
-    #    print(combined_transcript, len(combined_transcript))
-    #
-    #    text_splitter = RecursiveCharacterTextSplitter(
-    #        #chunk_size=ceil(len(combined_transcript)/10),
-    #        #chunk_overlap=ceil(len(combined_transcript)/100),
-    #        chunk_size=800,
-    #        chunk_overlap=40,
-    #        length_function=len,
-    #        is_separator_regex=False,
-    #    )
-#
-    #    documents = text_splitter.create_documents([combined_transcript])
-    #    texts = [doc.page_content for doc in documents] 
-#
-    #    vectors = embeddings.embed_documents(texts)
-#
-    #    for text, vector in zip(texts, vectors):
-    #        response = supabase.table('vectors').insert({
-    #            'character_name': character,
-    #            'video_id': video_id,
-    #            'transcript_chunk': text,
-    #            'embedding': vector
-    #        }).execute()
-#
-    #        if 'error' in response:
-    #            print(f"Error inserting data: {response['error']}")
-    #        else:
-    #            print("Data inserted successfully")
-                
-                
-
-
+            else:
+                print("No transcripts found")
+                continue
 

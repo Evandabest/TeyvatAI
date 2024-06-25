@@ -73,7 +73,7 @@ const Chat = async () => {
     
     return (
         <>
-            <div className="flex flex-col h-screen items-center ">
+            <div className="flex flex-col items-center ">
                 <h1 className="m-auto text-2xl my-2">Chats</h1>
                 {chats && chats.length > 0 && usernames ? (
                     chats.map((chat, index) => (

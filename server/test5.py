@@ -25,7 +25,7 @@ if not supabase_url or not supabase_key:
 supabase: Client = create_client(supabase_url, supabase_key)
 
 # Instantiate the language model and embeddings
-llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=api_key)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 
@@ -39,6 +39,8 @@ def func () :
         # Calculate similarity
         similarities = fetchContext(prompt_embedding)
 
+        print(f"Similarities: {similarities}")
+
         if similarities:
             similarities = [item['transcript_chunk'] for item in similarities]
             combined_transcripts = " ".join(similarities)
@@ -49,6 +51,8 @@ def func () :
                 "message": response.content,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
+
+            print (response.content)
             
             try:
                 response = supabase.table("chatbot").select("messages").eq("id", id).execute()

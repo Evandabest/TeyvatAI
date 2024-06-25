@@ -26,17 +26,17 @@ const NavBar = () => {
     router.push('/profile')
   }
   return (
-    <div className='flex-row flex justify-evenly top-0'>
-        <button onClick={goHome}><i className='bx bxs-home-circle'></i></button>
+    <div className='flex-row flex justify-evenly top-0 mt-2'>
+        <button onClick={goHome}><i className='bx bxs-home-circle bx-sm'></i></button>
         <img className=' w-20' src="/logo.png" alt="logo" />
         <Sheet>
-            <SheetTrigger><i className ='bx bx-menu'></i></SheetTrigger>
+            <SheetTrigger><i className ='bx bx-menu bx-sm'></i></SheetTrigger>
             <SheetContent className=' max-w-20'>
-                    <SheetHeader>
-                        <SheetTrigger><button><i className ='bx bx-menu' ></i></button></SheetTrigger>
-                        <SheetTrigger><button onClick={chat}><i className='bx bx-message-rounded-dots' ></i></button></SheetTrigger>
-                        <SheetTrigger><button onClick={inventory}><i className='bx bxs-book' ></i></button></SheetTrigger>
-                        <SheetTrigger><button onClick={profile}><i className='bx bxs-user' ></i></button></SheetTrigger>
+                    <SheetHeader className='flex flex-col'>
+                        <SheetTrigger ><button className='my-2'><i className ='bx bx-menu bx-sm' ></i></button></SheetTrigger>
+                        <SheetTrigger ><button className='my-2' onClick={chat}><i className='bx bx-message-rounded-dots bx-sm' ></i></button></SheetTrigger>
+                        <SheetTrigger ><button className='my-2' onClick={inventory}><i className='bx bxs-book bx-sm' ></i></button></SheetTrigger>
+                        <SheetTrigger><button className='my-2' onClick={profile}><i className='bx bxs-user bx-sm' ></i></button></SheetTrigger>
                 </SheetHeader>
             </SheetContent>
         </Sheet>
