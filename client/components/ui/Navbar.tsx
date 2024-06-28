@@ -9,6 +9,7 @@ import {
     SheetTrigger,
   } from "@/components/ui/sheet"
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
   
 
 const NavBar = () => {
@@ -28,7 +29,7 @@ const NavBar = () => {
   return (
     <div className='flex-row flex justify-evenly top-0 mt-2'>
         <button onClick={goHome}><i className='bx bxs-home-circle bx-sm'></i></button>
-        <img className=' w-20' src="/logo.png" alt="logo" />
+        <Image className=' w-20' src="/logo.png" alt="logo" />
         <Sheet>
             <SheetTrigger><i className ='bx bx-menu bx-sm'></i></SheetTrigger>
             <SheetContent className=' max-w-20'>

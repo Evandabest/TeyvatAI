@@ -3,7 +3,7 @@ import DisplayEmail from "../../components/ui/DisplayEmail";
 import { Button } from "@/components/ui/button";
 import { logOut } from "./actions";
 
-export async function getProfile() {
+async function getProfile() {
   const supabase = createClient();
   const {data: {user}} = await supabase.auth.getUser();
   const id = user?.id;

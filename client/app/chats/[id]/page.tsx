@@ -76,7 +76,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
             }
         }
         getInfo()
-    }, [])
+    }, [id, supabase])
 
     useEffect(() => {
         scrollToBottom()
@@ -102,7 +102,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
         return () => {
             channel.unsubscribe()
         }
-    }, [])
+    }, [id, supabase])
     
     const sendMessage = async (event: React.MouseEvent) => {
         event.preventDefault();

@@ -12,17 +12,29 @@ import {
   } from "@/components/ui/alert-dialog"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react";
 
 interface Friend {
     id: string;
     username: string;
 }
   
-  const NewChat = async ({friend}: {friend: Friend[]}) => {
+  const NewChat =  ({friend}: {friend: Friend[]}) => {
     const router = useRouter()
     const supabase = createClient()
-    const {data: {user}} = await supabase.auth.getUser();
-    const id = user?.id;
+    
+    useEffect(() => {
+        const getUser = async () => {
+            const {data: {user}} = await supabase.auth.getUser();
+            const id = user?.id;
+            if (!id) {
+                console.error('Error fetching user:')
+                return;
+            }
+        }
+        getUser();
+    }, [supabase])
+
 
     const startChat = async ({id} : {id: string}) => {
         const { data: existingChat, error: fetchError } = await supabase

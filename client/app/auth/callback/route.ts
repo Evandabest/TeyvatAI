@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { type CookieOptions, createServerClient } from '@supabase/ssr'
+import { redirect } from 'next/navigation'
 
 export async function GET(request: Request) {
   const requestURL = new URL(request.url)
@@ -33,6 +34,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
       return NextResponse.redirect(requestURL.origin + "/home")
+      //return redirect(requestURL.origin+"/home")
     }
   }
 

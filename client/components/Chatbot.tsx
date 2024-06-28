@@ -54,7 +54,7 @@ const Chatbot = () => {
             }
         }
         getInfo()
-    }, [])
+    }, [supabase])
 
     useEffect(() => {        
         const channel = supabase
@@ -76,7 +76,7 @@ const Chatbot = () => {
         return () => {
             channel.unsubscribe()
         }
-    }, [])
+    }, [supabase])
     useEffect(() => {
         scrollToBottom()
     }, [chats])
@@ -132,14 +132,14 @@ const Chatbot = () => {
                             <>
                          <AlertDialogDescription>
                             <div className="flex flex-col m-auto rounded-md bg-slate-700">
-                                <p className="m-auto my-4 text-white">Chat With Teyvat's Tinker</p>
+                                <p className="m-auto my-4 text-white">Chat With Teyvat&apos;s Tinker</p>
                                 <div className="mx-4 flex flex-grow flex-col bg-white overflow-scroll">
                                 {chats?.map((message : any , index : any) => (
                                     message.sender === current_id ? (
                                         <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
                                     ) : (
                                         <>
-                                            <p className="text-start text-gray-500 mx-4 text-sm">Teyvat's Tinker</p>
+                                            <p className="text-start text-gray-500 mx-4 text-sm">Teyvat&apos;s Tinker</p>
                                             <p className="text-start mx-4 text-black" key={index}>{message.message}</p>
                                         </>
                                     )
