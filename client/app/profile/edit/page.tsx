@@ -53,7 +53,18 @@ const Edit = () => {
         setNewPfp(file)
     }
 
-    const edit = async () => {
+    const getURL = async (link:string) => {
+        const { data: {publicUrl} } = await supabase.storage.from('pfp').getPublicUrl(link);
+            if (!publicUrl) {
+                console.error('Error fetching public url');
+                return;
+        }
+        return publicUrl
+    }
+
+    const edit = async (e: any) => {
+        e.preventDefault()
+        let updatedProfile = { ...data }
         if (newPfp) {
             const time = Date.now()
             const {data, error} = await supabase.storage.from('pfp').upload(`${id}_${time}`, newPfp)
@@ -61,35 +72,26 @@ const Edit = () => {
                 console.error('Error uploading pfp:', error);
                 return;
             }
-
-            console.log(data)
-
-            const { data: {publicUrl} } = supabase
-            .storage
-            .from('pfp')
-            .getPublicUrl(`${id}_${time}.png`)
+            const publicUrl = await getURL(`${id}_${time}`)
             if (!publicUrl) {
                 console.error('Error fetching public url');
                 return;
             }
-            console.log(publicUrl)
-
-            setData(prevData => ({
-                ...prevData,
-                pfp: publicUrl
-            }))
+            updatedProfile.pfp = publicUrl
+        
         }
-        const {data: updatedData, error} = await supabase.from('profiles').update({
-            pfp: data.pfp,
-            username: data.username,
-            Ar: data.Ar,
-            email: data.email
-        }).eq('id', id)
-        if (error) {
-            console.error('Error updating profile:', error);
+        const { data: updatedData, error: updateError } = await supabase.from('profiles').update({
+            pfp: updatedProfile.pfp, 
+            username: updatedProfile.username,
+            Ar: updatedProfile.Ar,
+            email: updatedProfile.email
+        }).eq('id', id);
+        
+        if (updateError) {
+            console.error('Error updating profile:', updateError);
             return;
         }
-        //router.push('/profile')
+        router.push('/profile')
     }
 
         
@@ -111,7 +113,7 @@ const Edit = () => {
                 <Input name="username" onChange={changeInfo} value={data.username ?? ""} />
                 <Input name="Ar" onChange={changeInfo} value={data.Ar ?? ""}/>
                 <Input name="email" onChange={changeInfo} value={data.email ?? ""}/>
-                <Button type="submit" onClick={edit}>Edit </Button>
+                <Button type="submit" onClick={(e) => edit(e)}>Edit </Button>
             </form>
         </>
     )
