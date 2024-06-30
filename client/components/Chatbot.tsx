@@ -46,7 +46,6 @@ const Chatbot = () => {
             if (messages) {
                 const message = messages[0]
                 setChats(message);
-                console.log(messages)
             }
             else {
                 console.error('Error fetching messages:', error);
