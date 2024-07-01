@@ -115,8 +115,6 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     
         let latestMessage = chats ? [...chats.flat(), chatMessage] : [chatMessage];
     
-        console.log(latestMessage)
-        console.log(chats, chatMessage)
         const { data: newMessage, error } = await supabase
             .from('chats')
             .update({ messages: latestMessage})
