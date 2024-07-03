@@ -45,7 +45,7 @@ embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
 
 
 genshin_impact_characters = [
-    "yelan",
+    "Ganyu",
 ]
 
 for i in genshin_impact_characters:    
