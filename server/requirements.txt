@@ -8,4 +8,5 @@ google-generativeai
 python-dotenv
 supabase
 flask-cors
+Gunicorn
 

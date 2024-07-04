@@ -14,6 +14,7 @@ import { createClient } from "@/utils/supabase/client"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
+import 'boxicons/css/boxicons.min.css'; 
 
 
 const Chatbot = () => {
@@ -120,7 +121,9 @@ const Chatbot = () => {
     return (
         <>
             <AlertDialog>
-                <AlertDialogTrigger className="bottom-0 sticky flex">Teyvat Tinker</AlertDialogTrigger>
+                <AlertDialogTrigger className="fixed bottom-10 right-0 mb-4 mr-4 flex">
+                    <i className='bx bx-lg bx-bot'></i>
+                </AlertDialogTrigger>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                     <AlertDialogTitle>Teyvat Tinker</AlertDialogTitle>
@@ -132,18 +135,18 @@ const Chatbot = () => {
                          <AlertDialogDescription>
                             <div className="flex flex-col m-auto rounded-md bg-slate-700">
                                 <p className="m-auto my-4 text-white">Chat With Teyvat&apos;s Tinker</p>
-                                <div className="mx-4 flex flex-grow flex-col bg-white overflow-scroll">
-                                {chats?.map((message : any , index : any) => (
-                                    message.sender === current_id ? (
-                                        <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
-                                    ) : (
-                                        <>
-                                            <p className="text-start text-gray-500 mx-4 text-sm">Teyvat&apos;s Tinker</p>
-                                            <p className="text-start mx-4 text-black" key={index}>{message.message}</p>
-                                        </>
-                                    )
-                                ))}
-                                <div ref={messagesEndRef} />
+                                <div className="mx-4 flex flex-grow flex-col h-96 bg-white overflow-y-scroll">
+                                    {chats?.map((message : any , index : any) => (
+                                        message.sender === current_id ? (
+                                            <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
+                                        ) : (
+                                            <>
+                                                <p className="text-start text-gray-500 mx-4 text-sm">Teyvat&apos;s Tinker</p>
+                                                <p className="text-start mx-4 text-black" key={index}>{message.message}</p>
+                                            </>
+                                        )
+                                    ))}
+                                    <div ref={messagesEndRef} />
                                 </div>
                                 <div className="flex my-4 flex-row m-auto w-full">
                                     <Input className="w-full mx-2" value={message} onChange={(e) => setMessage(e.target.value)} />

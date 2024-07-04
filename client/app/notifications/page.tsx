@@ -36,7 +36,7 @@ const NotificationsPage = async () => {
   }
 
   return (
-    <div className="flex flex-col h-screen items-center">
+    <div className="flex flex-col items-center">
       <h1 className="m-auto text-2xl my-2">Notifications</h1>
       <div className="flex flex-col overflow-y-auto">
     {notifications && notifications.map((notification: any, index: any) => {

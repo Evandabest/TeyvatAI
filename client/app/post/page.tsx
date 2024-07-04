@@ -46,7 +46,7 @@ const Post = () => {
 
         }
         getData()
-    }, [])
+    }, [supabase])
 
     const newFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]

@@ -28,6 +28,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
 embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
 
 app = Flask(__name__)
+port = 5000
 
 CORS(app)
 
