@@ -11,12 +11,12 @@ const Inventory = () => {
 
     const goToTeams = async () => {
         "use server"
-        redirect('/inventory/characters')
+        redirect('/inventory/teams')
     }
 
     const goToNotes = async () => {
         "use server"
-        redirect('/inventory/characters')
+        redirect('/inventory/notes')
     }
 
     return (
