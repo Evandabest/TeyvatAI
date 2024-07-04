@@ -105,7 +105,7 @@ const Chatbot = () => {
             setMessage('');
         }
 
-        const url = `http://127.0.0.1:5000/api/chat`
+        const url = `https://teyvatai.onrender.com/api/chat`
         const response = await fetch(url, {
             method: 'POST',
             headers: {

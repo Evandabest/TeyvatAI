@@ -92,5 +92,5 @@ def fetchContext(query_embedding):
     return data.data
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=False)
 
