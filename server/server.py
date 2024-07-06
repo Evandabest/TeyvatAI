@@ -42,7 +42,6 @@ def fetchContext(query_embedding):
 
 
 @app.route('/api/chat', methods=['POST'])
-
 def api():
     try:
         data = request.json

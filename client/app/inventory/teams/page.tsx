@@ -136,7 +136,7 @@ const Teams = () => {
                     </AlertDialogContent>
                 </AlertDialog>
                 </div>
-                <div className="flex flex-col items-center justify-center mt-12">
+                <div className="flex flex-col items-center justify-center mt-6 overflow-scroll h-[34rem] pr-2">
                     {teams.map((team, index) => { 
                         return (
                             <div key={index} className="flex flex-row border-2 my-2 rounded-md border-black">

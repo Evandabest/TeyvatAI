@@ -134,9 +134,9 @@ const Chatbot = () => {
                     <i className='bx bx-lg bx-bot'></i>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
-                    <AlertDialogHeader>
+                    <AlertDialogHeader className="flex flex-row items-center w-full">
                     <AlertDialogTitle>Teyvat Tinker</AlertDialogTitle>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel className="flex ml-[16rem]">Cancel</AlertDialogCancel>
                     </AlertDialogHeader>
                     <>
                         {chats ? (
