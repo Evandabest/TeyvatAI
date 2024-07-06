@@ -71,7 +71,6 @@ def api():
             
             try:
                 response = supabase.table("chatbot").select("messages").eq("id", id).execute()
-                print(response)
 
                 if response.data:
                     current_messages = response.data[0]['messages']
