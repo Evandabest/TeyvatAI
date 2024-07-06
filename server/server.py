@@ -32,7 +32,17 @@ port = 5000
 
 CORS(app)
 
+def fetchContext(query_embedding):
+    match_count = 5
+    data = supabase.rpc("similarity", {
+        "query_embedding": query_embedding,
+        "match_count": match_count
+    }).execute()
+    return data.data
+
+
 @app.route('/api/chat', methods=['POST'])
+
 def api():
     try:
         data = request.json
@@ -71,25 +81,14 @@ def api():
 
                 current_messages.append(chatMessage)
 
-                update_response = supabase.table("chatbot").update({"messages": current_messages}).eq("id", id).execute()
-                if update_response.error:
-                    return jsonify({"error": str(update_response.error)}), 500
-                else:
-                    return jsonify({"success": True, "updated_message": chatMessage}), 200
+                supabase.table("chatbot").update({"messages": current_messages}).eq("id", id).execute()
+                return jsonify({"success": True, "updated_message": chatMessage}), 200
             except Exception as e:
-                return jsonify({"error": str(e)}), 500
+                return jsonify({"error": str(e) + "sigma"}), 500
         else:
             return jsonify({"message": "No similar transcript chunks found."}), 404
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-def fetchContext(query_embedding):
-    match_count = 7
-    data = supabase.rpc("similarity", {
-        "query_embedding": query_embedding,
-        "match_count": match_count
-    }).execute()
-    return data.data
+        return jsonify({"error": str(e)+ "bruh"}), 500
 
 if __name__ == "__main__":
     app.run(port=5000, debug=False)

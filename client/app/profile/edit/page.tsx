@@ -107,13 +107,17 @@ const Edit = () => {
 
     return (
         <>   
-            <form>
-                <img src={data.pfp ?? undefined} alt="Profile Picture" />
+            <form className="flex flex-col border-2 shadow-md shadow-black p-4 w-96 m-auto items-center justify-center mt-12 space-y-4">
+                <img className="rounded-full h-24 w-24 mb-4" src={data.pfp ?? undefined} alt="Profile Picture" />
+                <p>Select new profile picture</p>
                 <Input type="file" onChange={newFile} name="file" />
+                <p>Display name:</p>
                 <Input name="username" onChange={changeInfo} value={data.username ?? ""} />
+                <p>Adventure Rank</p>
                 <Input name="Ar" onChange={changeInfo} value={data.Ar ?? ""}/>
+                <p>Email</p>
                 <Input name="email" onChange={changeInfo} value={data.email ?? ""}/>
-                <Button type="submit" onClick={(e) => edit(e)}>Edit </Button>
+                <Button type="submit" onClick={(e) => edit(e)}>Confirm changes </Button>
             </form>
         </>
     )

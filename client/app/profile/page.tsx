@@ -19,12 +19,15 @@ const Profile = async () => {
 
     return (
         <>    
-            <form>
-                <img src={data[0].pfp} alt="Profile Picture" />
-                <p>Username: {data[0].username}</p>
-                <p>Adventure Rank: {data[0].Ar}</p>
-                <p>Email: {data[0].email}</p>
-                <Button type="submit" formAction={goToEdit}></Button>
+            <form className="flex flex-col border-2 shadow-md shadow-black p-4 w-96 m-auto items-center justify-center mt-12">
+                <img className="rounded-full mb-8 h-24 w-24" src={data[0].pfp} alt="Profile Picture" />
+                <p>Display name: </p>
+                <p> {data[0].username}</p>
+                <p>Adventure Rank: </p>
+                <p> {data[0].Ar}</p>
+                <p>Email: </p>
+                <p> {data[0].email}</p>
+                <Button className="mt-4" type="submit" formAction={goToEdit}>Edit</Button>
             </form>
         </>
     )

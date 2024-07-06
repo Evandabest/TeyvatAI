@@ -14,7 +14,7 @@ const Bottombar = () => {
         router.push('/search')
     }
     return (
-        <div className="flex-col flex h-5 mt-0 bottom-0 w-full mb-2">
+        <div className="flex-col flex h-5 mt-0 bottom-0 w-full mb-6">
             <div className="flex-row flex justify-evenly">
                 <button onClick={notification}><i className='bx bxs-bell bx-sm'></i></button>
                 <button onClick={post}><i className='bx bx-plus  bx-sm' ></i></button>

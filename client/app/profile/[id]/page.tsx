@@ -10,7 +10,6 @@ const User = async ({params}: {params: {id: string}}) => {
         console.error(error);
         return;
     }
-    const userName = data?.username;
 
     const {data: {user}} = await supabase.auth.getUser();
     const sid = user?.id;
@@ -23,12 +22,18 @@ const User = async ({params}: {params: {id: string}}) => {
     }
 
     return (
-        <div>
-            <form>
-                <h1>{userName}</h1>
-                <AddFriend props = {{id, sid}} />
+        <>
+            <form className="flex flex-col border-2 shadow-md shadow-black p-4 w-96 m-auto items-center justify-center mt-12">
+                <img className="rounded-full mb-8 h-24 w-24" src={data.pfp} alt="Profile Picture" />
+                <p>Display name: </p>
+                <p> {data.username}</p>
+                <p>Adventure Rank: </p>
+                <p> {data.Ar}</p>
+                <div className="my-4">
+                    <AddFriend props = {{id, sid}}/>
+                </div>
             </form>
-        </div>
+        </>
     );
 }
 
