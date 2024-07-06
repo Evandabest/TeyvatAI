@@ -22,6 +22,8 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
     const [current_id, setCurrentId] = useState("");
     const [reciever, setReciever] = useState("");
     const [receiverUserName, setReceiverUserName] = useState("");
+    const [userPfp, setUserPfp] = useState("");
+    const [recieverPfp, setRecieverPfp] = useState("");
     const [message, setMessage] = useState<string>("");
     const supabase = createClient()
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -65,13 +67,30 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
                 return;
             }
 
-            const recieverUser = await supabase.from('profiles').select('username').eq('id', receiver).single();
+            const recieverUser = await supabase.from('profiles').select('*').eq('id', receiver).single();
             const reciverUserName = recieverUser?.data?.username;
             if (reciverUserName) {
                 setReceiverUserName(reciverUserName);
             }
             else {
                 console.error('Error fetching reciever username:');
+                return;
+            }
+            const recieverPfp = recieverUser?.data?.pfp;
+            if (recieverPfp) {
+                setRecieverPfp(recieverPfp);
+            }
+            else {
+                console.error('Error fetching reciever pfp:');
+                return;
+            }
+            const current = await supabase.from('profiles').select('*').eq('id', current_id).single();
+            const currentPfp = current?.data?.pfp;
+            if (currentPfp) {
+                setUserPfp(currentPfp);
+            }
+            else {
+                console.error('Error fetching current pfp:');
                 return;
             }
         }
@@ -132,16 +151,26 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
         <>
             {chats ? (
                 <>
-                <div className="flex flex-col m-auto rounded-md bg-slate-700 w-1/2 h-screen">
+                <div className="flex flex-col m-auto rounded-md bg-slate-700 w-1/2 my-4">
                     <p className="m-auto my-4 text-white">Chat With {receiverUserName}</p>
-                    <div className="mx-4 flex flex-grow flex-col bg-white overflow-auto">
+                    <div className="mx-4 flex flex-grow flex-col bg-white h-[32rem] overflow-scroll">
                     {chats?.map((message : any , index : any) => (
                         message.sender === current_id ? (
-                            <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
+                            <>
+                                <div className='flex flex-row justify-end mr-4'>
+                                    <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
+                                    <img className="rounded-full h-8 w-8" src={userPfp} alt="Profile Picture" />
+                                </div>
+                            </>
                         ) : (
                             <>
-                                <p className="text-start text-gray-500 mx-4 text-sm">{receiverUserName}</p>
-                                <p className="text-start mx-4 text-black" key={index}>{message.message}</p>
+                                <div className='flex flex-row justify-start ml-4'>
+                                    <img className="rounded-full h-8 w-8" src={recieverPfp} alt="Profile Picture" />
+                                    <div className="flex flex-col">
+                                        <p className="text-start text-gray-500 mx-4 text-sm">{receiverUserName}</p>
+                                        <p className="text-start mx-4 text-black" key={index}>{message.message}</p>
+                                    </div>
+                                </div>
                             </>
                         )
                     ))}
@@ -153,7 +182,7 @@ const Chats = ({params: {id}}: {params: {id: string}}) => {
                     </div>
                 </div>
             </>
-        )    : (
+            ) : (
             <>
                     <p>Chat With {receiverUserName}</p>
                     <p>No messages</p>

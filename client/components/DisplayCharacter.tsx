@@ -24,8 +24,10 @@ const DisplayCharacter = ({character, userCharacters, handleCharacterClick}: {ch
             onClick={() => handleClick(character.name)}
             className={`cursor-pointer p-4 m-2 rounded-lg shadow-lg ${clicked ? 'bg-gray-400' : 'bg-transparent'} hover:bg-gray-200`}
         >
-            <img src={character.link} alt={character.name} className="w-full h-auto rounded-t-lg" />
-            <h1 className="text-lg font-bold text-center mt-2">{character.name}</h1>
+            <img src={character.link} alt={character.name} className="w-24 h-24 shadow-2 shadow-black rounded-full" />
+            <div className="flex flex-wrap w-24 justify-center">
+                <h1 className="text-lg font-bold text-center mt-2">{character.name}</h1>
+            </div>
         </div>
     );
 }

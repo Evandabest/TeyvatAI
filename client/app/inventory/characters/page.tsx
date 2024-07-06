@@ -66,9 +66,9 @@ const Characters = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center my-4 justify-center">
             <h1>Select the characters that you have!</h1>
-            <div className="flex flex-wrap justify-center w-full">
+            <div className="flex flex-wrap justify-center overflow-scroll w-full">
                 {characters.map((character) => (
                     <>
                     <DisplayCharacter 
@@ -79,7 +79,7 @@ const Characters = () => {
                     </>
                 ))}
             </div>
-            <Button onClick={handleSubmit}> Submit</Button>
+            <Button className="my-4" onClick={handleSubmit}> Submit</Button>
             
         </div>
     )

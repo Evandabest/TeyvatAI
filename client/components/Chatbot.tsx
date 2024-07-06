@@ -20,6 +20,7 @@ import 'boxicons/css/boxicons.min.css';
 const Chatbot = () => {
     const [chats, setChats] = useState<any>([])
     const [current_id, setCurrentId] = useState("")
+    const [currentPfp, setCurrentPfp] = useState("")
     const [message, setMessage] = useState<string>("");
     const supabase = createClient()
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -52,6 +53,14 @@ const Chatbot = () => {
                 console.error('Error fetching messages:', error);
                 return;
             }
+
+            const data = await supabase.from('profiles').select('pfp').eq('id', current_id).single();
+            if (data.error) {
+                console.error('Error fetching pfp:', data.error);
+                return;
+            }
+            setCurrentPfp(data.data.pfp);
+
         }
         getInfo()
     }, [supabase])
@@ -138,7 +147,12 @@ const Chatbot = () => {
                                 <div className="mx-4 flex flex-grow flex-col h-96 bg-white overflow-y-scroll">
                                     {chats?.map((message : any , index : any) => (
                                         message.sender === current_id ? (
-                                            <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
+                                            <>
+                                                <div className='flex flex-row justify-end mr-4'>
+                                                    <p className=" text-end mx-4 text-black my-2" key={index}>{message.message}</p>
+                                                    <img className="rounded-full h-8 w-8" src={currentPfp} alt="Profile Picture" />
+                                                </div>
+                                            </>
                                         ) : (
                                             <>
                                                 <p className="text-start text-gray-500 mx-4 text-sm">Teyvat&apos;s Tinker</p>

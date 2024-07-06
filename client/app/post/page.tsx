@@ -135,11 +135,12 @@ const Post = () => {
     
     return (
         <>   
-            <form>
+            <form className="flex flex-col border-2 shadow-md shadow-black p-4 w-96 m-auto items-center justify-center mt-12 space-y-4">
+                <p>New Post</p>
                 {postPic && <img src={URL.createObjectURL(postPic)} alt="Post Picture" />}
                 <Input type="file" onChange={newFile} name="file" />
-                <Input name="title" onChange={changeInfo} value={data.title ?? ""} />
-                <Input name="description" onChange={changeInfo} value={data.description ?? ""}/>
+                <Input name="title" onChange={changeInfo} placeholder="Title" value={data.title ?? ""} />
+                <Input name="description" onChange={changeInfo} placeholder="Description" value={data.description ?? ""}/>
                 <Button type="submit" onClick={(e) => posted(e)}>Post </Button>
             </form>
         </>

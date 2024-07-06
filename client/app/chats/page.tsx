@@ -53,6 +53,7 @@ const Chat = async () => {
             }
 
             const user: string = friend?.username;
+            //const pfpLink : string = friend?.pfp;
 
             return { id: friend_id, username: user };
         }));

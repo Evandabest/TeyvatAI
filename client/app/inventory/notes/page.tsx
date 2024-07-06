@@ -27,14 +27,13 @@ const Notes = () => {
     const [sent, setSent] = useState<boolean>(false);
     useEffect(() => {
         const fetchNotes = async () => {
-            const {data: {user}} = await supabase.auth.getUser();
+            const {data: {user}}: {data: {user: any}} = await supabase.auth.getUser();
             const current_id = user?.id;
             if (user) setId(user.id);
             const { data, error } = await supabase.from("notes").select("note").eq("id", current_id);
             if (error) console.log('error', error)
             if (data) {
-                setNotes(data[0].note);
-                
+                setNotes(data[0].note); 
             }
         }
         fetchNotes();

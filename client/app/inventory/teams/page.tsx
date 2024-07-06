@@ -100,15 +100,15 @@ const Teams = () => {
 
     return (
         <>
-            <div className="flex flex-col">
-                <h1>Teams</h1>
+            <div className="flex flex-col items-center justify-center">
+                <h1 className="font-bold">Teams</h1>
                 <div>
                 <AlertDialog>
-                    <AlertDialogTrigger>Add a new Team</AlertDialogTrigger>
-                    <AlertDialogContent>
+                    <AlertDialogTrigger className="bg-gray-600 text-white p-2 rounded-md" >Add a new Team</AlertDialogTrigger>
+                    <AlertDialogContent className="flex flex-wrap">
                         <AlertDialogHeader>
                         <AlertDialogTitle>Make a team</AlertDialogTitle>
-                        <div className = "flex flex-row">
+                        <div className = "flex flex-row space-x-2">
                             {newTeam.map((character, index) => {
                                 return (
                                     <div key={index} onClick = {() => setNewTeam(newTeam.filter((name) => name !== character))}>
@@ -119,10 +119,10 @@ const Teams = () => {
                             })}
                         </div>
                         </AlertDialogHeader>
-                        <div className="flex flex-row">
+                        <div className="flex flex-wrap overflow-scroll h-72 space-x-2 space-y-2">
                             {characters.map((character) => {
                                 return userCharacters.includes(character.name) ? (
-                                    <div className="" onClick={() => addToTeam(character.name, character.link)}>
+                                    <div className="flex items-center justify-center flex-col" onClick={() => addToTeam(character.name, character.link)}>
                                         <img src={character.link} alt={character.name} />
                                         <p>{character.name}</p>
                                     </div>
@@ -136,15 +136,17 @@ const Teams = () => {
                     </AlertDialogContent>
                 </AlertDialog>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center justify-center mt-12">
                     {teams.map((team, index) => { 
                         return (
-                            <div key={index} className="flex flex-row">
+                            <div key={index} className="flex flex-row border-2 my-2 rounded-md border-black">
                                     {team.map((member : any, index: any) => {
                                         return (
-                                            <div key={index} className="flex flex-col">
-                                                <img src={characters.find((char) => char.name === member)?.link} alt={member} />
-                                                <p>{member}</p>
+                                            <div key={index} className="flex flex-col w-24 m-4 text-center items-center">
+                                                <img src={characters.find((char) => char.name === member)?.link} alt={member} className="w-24 h-24" />
+                                                <div className="flex flex-wrap">
+                                                    <p>{member}</p>
+                                                </div>
                                             </div>
                                         );
                                     })}
