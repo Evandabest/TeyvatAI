@@ -61,8 +61,10 @@ def api():
             print("\"" + i["id"] + "\",")
         print("]")
         
+        k = 1
         for j in similarities:
-            print(j["transcript_chunk"], "||||||||")
+            print(k,j["transcript_chunk"], "||||||||")
+            k+=1
 
         if similarities:
             similarities = [item['transcript_chunk'] for item in similarities]

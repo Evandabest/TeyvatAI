@@ -97,7 +97,7 @@ for i in genshin_impact_characters:
                 )
 
                 documents = text_splitter.create_documents([combined_transcript])
-                texts = [f"{character}: {doc.page_content}" for doc in documents] 
+                texts = [f"{doc.page_content}" for doc in documents] 
 
                 vectors = embeddings.embed_documents(texts)
 
