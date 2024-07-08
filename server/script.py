@@ -60,7 +60,7 @@ for i in genshin_impact_characters:
     element.send_keys(f"{i} character guide genshin impact")
 
     element.send_keys(Keys.RETURN)
-    time.sleep(4)
+    time.sleep(3)
     character = i
 
     video_links = driver.find_elements(By.XPATH, '//a[@id="video-title"]')
@@ -97,7 +97,7 @@ for i in genshin_impact_characters:
                 )
 
                 documents = text_splitter.create_documents([combined_transcript])
-                texts = [doc.page_content for doc in documents] 
+                texts = [f"{character}: {doc.page_content}" for doc in documents] 
 
                 vectors = embeddings.embed_documents(texts)
 
@@ -129,5 +129,5 @@ for i in genshin_impact_characters:
             print(f"An error occurred: {e}")
             continue
 
-    time.sleep(10)
+    time.sleep(5)
 

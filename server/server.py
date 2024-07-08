@@ -56,12 +56,18 @@ def api():
         
         # Calculate similarity
         similarities = fetchContext(prompt_embedding)
+        print("[")
+        for i in similarities:
+            print("\"" + i["id"] + "\",")
+        print("]")
+        
+        for j in similarities:
+            print(j["transcript_chunk"], "||||||||")
 
         if similarities:
             similarities = [item['transcript_chunk'] for item in similarities]
-            combined_transcripts = " ".join(similarities)
-            print(combined_transcripts)
-            prompt_with_context = prompt + "Only answer the question asked and Use this following information as context if needed: " + combined_transcripts
+            combined_transcripts = ", ".join(similarities)
+            prompt_with_context = prompt + "Only answer the question asked and Use this following information as context if needed: " + combined_transcripts + "if you can't find the answer in the context, you can reply with `Can you repeat the question?`."
             response = llm.invoke(prompt_with_context)
             chatMessage = {
                 "sender": "TeyvatAI",
