@@ -14,8 +14,8 @@ if not supabase_url or not supabase_key:
 supabase: Client = create_client(supabase_url, supabase_key)
 
 susIds = [
-"3105fcd5-dede-4bc8-b05d-051e4246e32f",
-"d2a05ce9-a5d4-406c-96d0-7f15b8684717",
+"9987077e-03db-484e-83ba-5f7464834156",
+"8765362f-1c38-4fb7-bdc1-603ae304e748",
 ]
 for i in susIds:
     data = supabase.table("vectors").delete().eq("id", i).execute()

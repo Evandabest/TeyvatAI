@@ -60,7 +60,7 @@ for i in genshin_impact_characters:
     element.send_keys(f"{i} character guide genshin impact")
 
     element.send_keys(Keys.RETURN)
-    time.sleep(3)
+    time.sleep(2)
     character = i
 
     video_links = driver.find_elements(By.XPATH, '//a[@id="video-title"]')
@@ -84,20 +84,21 @@ for i in genshin_impact_characters:
             if not transcript:
                 raise TranscriptsDisabled
             if transcript:
-                for segment in transcript:
-                    combined_transcript += segment['text'] + " "
-                    
-                    text_splitter = RecursiveCharacterTextSplitter(
+
+                text_splitter = RecursiveCharacterTextSplitter(
                     #chunk_size=ceil(len(combined_transcript)/10),
                     #chunk_overlap=ceil(len(combined_transcript)/100),
-                    chunk_size=1200,
-                    chunk_overlap=70,
+                    chunk_size=600,
+                    chunk_overlap=100,
                     length_function=len,
                     is_separator_regex=False,
                 )
 
+                for segment in transcript:
+                    combined_transcript += segment['text'] + " "
+
                 documents = text_splitter.create_documents([combined_transcript])
-                texts = [f"{doc.page_content}" for doc in documents] 
+                texts = [f"{doc.page_content}" for doc in documents[:-1]] 
 
                 vectors = embeddings.embed_documents(texts)
 
@@ -129,5 +130,5 @@ for i in genshin_impact_characters:
             print(f"An error occurred: {e}")
             continue
 
-    time.sleep(5)
+    time.sleep(2)
 

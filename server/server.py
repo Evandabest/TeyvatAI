@@ -34,11 +34,9 @@ CORS(app)
 
 def fetchContext(query_embedding):
     match_count = 5
-    data = supabase.rpc("similarity", {
-        "query_embedding": query_embedding,
-        "match_count": match_count
-    }).execute()
+    data = supabase.rpc("similarity", { "query_embedding": query_embedding, "match_count": match_count}).execute()
     return data.data
+
 
 
 @app.route('/api/chat', methods=['POST'])
@@ -50,20 +48,23 @@ def api():
 
         if not prompt or not id:
             return jsonify({"error": "Missing prompt or id"}), 400
+        
+
 
         # Generate embedding for the prompt
         prompt_embedding = embeddings.embed_documents(prompt)[0]
         
         # Calculate similarity
         similarities = fetchContext(prompt_embedding)
+
         print("[")
         for i in similarities:
             print("\"" + i["id"] + "\",")
         print("]")
-        
+
         k = 1
         for j in similarities:
-            print(k,j["transcript_chunk"], "||||||||")
+            print(k,j["character_name"], ":",j["transcript_chunk"], "||||||||")
             k+=1
 
         if similarities:
