@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
+
 export async function login(formData: FormData) {
   const supabase = createClient()
 
@@ -30,12 +31,11 @@ export async function signup(formData: FormData) {
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  }
 
-  const { error } = await supabase.auth.signUp(data)
+  const { data, error } = await supabase.auth.signUp({
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  })
 
   if (error) {
     console.log(error)
@@ -48,7 +48,7 @@ export async function signup(formData: FormData) {
 
 export async function signInWithGoogle() {
   const supabase = createClient()
-  const redirectUrl ='/auth/callback'
+  const redirectUrl =`${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm`
   const { data,error } = await supabase.auth.signInWithOAuth({
      provider: 'google', 
      options: { 

@@ -86,6 +86,7 @@ const Chatbot = () => {
             channel.unsubscribe()
         }
     }, [supabase])
+    
     useEffect(() => {
         scrollToBottom()
     }, [chats])
