@@ -7,22 +7,40 @@ async function getProfile() {
   const supabase = createClient();
   const {data: {user}} = await supabase.auth.getUser();
   const id = user?.id;
-  const email = await supabase.from('profiles').select('email').eq('id', id);
-  const emailobj = email.data ? email.data[0] : null;
-  const emailaddress = emailobj ? emailobj.email : null;
-  return emailaddress;
+  const {data, error} = await supabase.from('profiles').select('friends').eq('id', id);
+  if (error) {
+    throw error;
+  }
+  let postid = []
+  for (let i = 0; i < data.length; i++) {
+    const posts = await supabase.from('profiles').select('posts').eq('id', data[i]);
+    if (posts.error) {
+      throw posts.error;
+    }
+    for (let j = 0; j < posts.data.length; j++) {
+      postid.push(posts.data[j]);
+    }
+
+  }
+
+  return postid;
 
 }
   
 const Home : ({}: any) => Promise<JSX.Element> = async ({}) => {
-    const email = await getProfile();
+    const posts = await getProfile();
   return (
     <div className="flex flex-col">
       <div className="mx-auto">
-        <h1>User email: {email}</h1>
         <form>
-          <button className="bg-black" formAction={logOut}>Log Out</button>
+          <button className="bg-white text-black" formAction={logOut}>Log Out</button>
         </form>
+        {posts.map((post : any) => (
+          <div key={post.id} className="border border-gray-300 p-4 my-4">
+            <h3 className="text-lg font-semibold">{post.title}</h3>
+            <p>{post.description}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

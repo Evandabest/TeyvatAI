@@ -12,7 +12,7 @@ export default function LoginPage() {
       <div className = "flex flex-row">
         <Button className='my-2 mx-2' formAction={login}>Log in</Button>
         <Button className='my-2 mx-2' formAction={signup}>Sign up</Button>
-        {//<Button className = "my-2 mx-2" formAction={signInWithGoogle}>Google</Button>
+        {<Button className = "my-2 mx-2" formAction={signInWithGoogle}>Google</Button>
 }
       </div>
     </form>
