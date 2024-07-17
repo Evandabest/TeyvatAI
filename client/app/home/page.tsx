@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import DisplayEmail from "../../components/ui/DisplayEmail";
 import { Button } from "@/components/ui/button";
 import { logOut } from "./actions";
+import Post from "@/components/post";
 
 async function getProfile() {
   const supabase = createClient();
@@ -11,24 +12,29 @@ async function getProfile() {
   if (error) {
     throw error;
   }
+
   let postid = []
-  for (let i = 0; i < data.length; i++) {
-    const posts = await supabase.from('profiles').select('posts').eq('id', data[i]);
+  for (let i = 0; i < data[0].friends.length; i++) {
+    const posts = await supabase.from('profiles').select('posts').eq('id', data[0].friends[i]);
     if (posts.error) {
       throw posts.error;
     }
+    //console.log(posts)
     for (let j = 0; j < posts.data.length; j++) {
-      postid.push(posts.data[j]);
+      //console.log(posts.data[j].posts)
+      postid.push(posts.data[j].posts[0]);
     }
 
   }
 
   return postid;
 
+
 }
   
 const Home : ({}: any) => Promise<JSX.Element> = async ({}) => {
     const posts = await getProfile();
+    //console.log(posts)
   return (
     <div className="flex flex-col">
       <div className="mx-auto">
@@ -36,10 +42,7 @@ const Home : ({}: any) => Promise<JSX.Element> = async ({}) => {
           <button className="bg-white text-black" formAction={logOut}>Log Out</button>
         </form>
         {posts.map((post : any) => (
-          <div key={post.id} className="border border-gray-300 p-4 my-4">
-            <h3 className="text-lg font-semibold">{post.title}</h3>
-            <p>{post.description}</p>
-          </div>
+          <Post id={post} />
         ))}
       </div>
     </div>
