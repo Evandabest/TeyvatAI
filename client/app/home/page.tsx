@@ -41,9 +41,11 @@ const Home : ({}: any) => Promise<JSX.Element> = async ({}) => {
         <form>
           <button className="bg-white text-black" formAction={logOut}>Log Out</button>
         </form>
-        {posts.map((post : any) => (
-          <Post id={post} />
-        ))}
+        <div className="flex flex-col m-auto">
+          {posts.map((post : any) => (
+            <Post id={post} />
+          ))}
+        </div>
       </div>
     </div>
   );

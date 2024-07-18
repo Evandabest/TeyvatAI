@@ -27,6 +27,7 @@ const Chatbot = () => {
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
+    const API_LINK = process.env.NEXT_PUBLIC_API_LINK
 
     useEffect(() => {
         const getInfo = async () => {
@@ -115,7 +116,7 @@ const Chatbot = () => {
             setMessage('');
         }
 
-        const url = `https://teyvatai.onrender.com/api/chat`
+        const url = `${API_LINK}/api/chat`
         const response = await fetch(url, {
             method: 'POST',
             headers: {
