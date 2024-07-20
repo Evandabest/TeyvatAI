@@ -43,7 +43,7 @@ const Home : ({}: any) => Promise<JSX.Element> = async ({}) => {
         </form>
         <div className="flex flex-col m-auto">
           {posts.map((post : any) => (
-            <Post id={post} />
+            <Post key={post} id={post} />
           ))}
         </div>
       </div>
